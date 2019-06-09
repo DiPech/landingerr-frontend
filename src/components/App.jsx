@@ -12,6 +12,7 @@ import OrderList from "./OrderList";
 import Shop from "./Shop";
 import {ToastProvider} from 'react-toast-notifications';
 import Cabinet from "./Cabinet";
+import AuthRequiredRoute from "./other/AuthRequiredRoute";
 
 const store = createStore(
     rootReducer,
@@ -29,11 +30,11 @@ export default class App extends React.Component {
                             <div className="container">
                                 <Switch>
                                     <Route path="/" exact component={Home}/>
-                                    <Route path="/orders" component={OrderList}/>
+                                    <AuthRequiredRoute path="/orders" component={OrderList}/>
                                     <Route path="/shop" component={Shop}/>
                                     <Route path="/auth" component={Auth}/>
                                     <Route path="/reg" component={Reg}/>
-                                    <Route path="/cabinet" component={Cabinet}/>
+                                    <AuthRequiredRoute path="/cabinet" component={Cabinet}/>
                                 </Switch>
                             </div>
                             <Footer/>
