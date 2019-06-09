@@ -24,22 +24,20 @@ export default class App extends React.Component {
         return (
             <Provider store={store}>
                 <ToastProvider autoDismiss={true} autoDismissTimeout={5000} pauseOnHover={true}>
-                    <div className="app">
-                        <Router>
-                            <Header/>
-                            <div className="container">
-                                <Switch>
-                                    <Route path="/" exact component={Home}/>
-                                    <AuthRequiredRoute path="/orders" component={OrderList}/>
-                                    <Route path="/shop" component={Shop}/>
-                                    <Route path="/auth" component={Auth}/>
-                                    <Route path="/reg" component={Reg}/>
-                                    <AuthRequiredRoute path="/cabinet" component={Cabinet}/>
-                                </Switch>
-                            </div>
-                            <Footer/>
-                        </Router>
-                    </div>
+                    <Router>
+                        <Header/>
+                        <div className="container">
+                            <Switch>
+                                <Route path="/" exact component={Home}/>
+                                <AuthRequiredRoute path="/orders" component={OrderList}/>
+                                <Route path="/shop" component={Shop}/>
+                                <Route path="/auth" component={Auth}/>
+                                <Route path="/reg" component={Reg}/>
+                                <AuthRequiredRoute path="/cabinet" component={Cabinet}/>
+                            </Switch>
+                        </div>
+                        <Footer/>
+                    </Router>
                 </ToastProvider>
             </Provider>
         );

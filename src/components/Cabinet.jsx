@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react';
 import {connect} from "react-redux";
 import {setEmail, setName, setPhone} from "../store/user/actions";
-import {Button, Col, Row} from "reactstrap";
 import {setToken} from "../store/auth/actions";
+import {Button, Col, Row} from "reactstrap";
 import {withToastManager} from "react-toast-notifications";
 
 class Cabinet extends React.Component {
@@ -13,7 +13,7 @@ class Cabinet extends React.Component {
         this.onPhoneChange = this.onPhoneChange.bind(this);
         this.logout = this.logout.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
-        this.state = {...this.state, isEdit: false};
+        this.state = {isEdit: false};
     }
     onNameChange(event) {
         this.props.setName(event.target.value);

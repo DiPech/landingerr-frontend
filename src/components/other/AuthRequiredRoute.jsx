@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import {setToken} from "../../store/auth/actions";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 import {withToastManager} from "react-toast-notifications";
 
 class AuthRequiredRoute extends React.Component {
@@ -12,7 +12,7 @@ class AuthRequiredRoute extends React.Component {
         }
         return (
             isAuthenticated ? (
-                <Component {...this.props} />
+                <Route {...this.props} />
             ) : (
                 <Redirect
                     to={{

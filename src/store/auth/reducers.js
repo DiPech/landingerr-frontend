@@ -5,11 +5,13 @@ import {
     AUTH_CHANGE_REPEAT_PASSWORD_TEXT
 } from "./actions";
 
+const token = localStorage.getItem("token");
+
 const defaultState = {
-    token: null,
-    email: '',
-    password: '',
-    repeatPassword: '',
+    token: token,
+    email: 'dmitry.pechkovsky@gmail.com',
+    password: 'Azaza1',
+    repeatPassword: 'Azaza1',
 };
 
 export const authReducer = (state = defaultState, action) => {
