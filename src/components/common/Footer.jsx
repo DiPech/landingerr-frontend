@@ -31,11 +31,11 @@ export default class Footer extends React.Component {
                             </SVAMSpan>
                         </Col>
                         <Col xs="6" className="text-right">
-                            <SFooterSocialBtn href="https://vk.com/dmitry.pechkovsky"
+                            <SFooterSocialBtn href="https://vk.com/dmitry.pechkovsky" target="_blank"
                                               className="btn btn-outline-secondary mr-1">
                                 <FaVk/>
                             </SFooterSocialBtn>
-                            <SFooterSocialBtn href="https://t.me/dipech"
+                            <SFooterSocialBtn href="https://t.me/dipech" target="_blank"
                                               className="btn btn-outline-secondary">
                                 <FaTelegram/>
                             </SFooterSocialBtn>

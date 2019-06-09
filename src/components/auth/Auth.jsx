@@ -1,24 +1,23 @@
 import React from 'react';
 import {Button, Row, Col} from "reactstrap";
+import {setEmailText, setPasswordText} from "../../store/auth/actions";
+import {connect} from "react-redux";
 
-export default class Authorization extends React.Component {
+class Auth extends React.Component {
     constructor(props) {
         super(props);
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
     }
-
     onEmailChange(event) {
         this.props.setEmailText(event.target.value);
     }
-
     onPasswordChange(event) {
         this.props.setPasswordText(event.target.value);
     }
-
     render() {
         return (
-            <div className="authorization">
+            <div>
                 <h2>Вход</h2>
                 <form>
                     <Row>
@@ -45,3 +44,17 @@ export default class Authorization extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        email: state.auth.email,
+        password: state.auth.password
+    };
+};
+
+const mapDispatchToProps = {
+    setEmailText,
+    setPasswordText
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

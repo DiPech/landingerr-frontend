@@ -1,6 +1,6 @@
 import React from "react";
 import {Link, NavLink as RRNavLink, withRouter} from "react-router-dom";
-import logo from "./img/herr.png"
+import logo from "../../img/herr.png"
 import styled from 'styled-components';
 import {FaSignInAlt, FaUserPlus} from "react-icons/fa";
 import {Collapse, Navbar, NavbarToggler, NavLink} from 'reactstrap';

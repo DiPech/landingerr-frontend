@@ -3,11 +3,11 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import rootReducer from "../store/reducers";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import AuthorizationContainer from "./AuthorizationContainer";
-import RegistrationContainer from "./RegistrationContainer";
+import Auth from "./auth/Auth";
+import Reg from "./auth/Reg";
 import Home from "./Home";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "./common/Header";
+import Footer from "./common/Footer";
 import OrderList from "./OrderList";
 import Shop from "./Shop";
 
@@ -28,8 +28,8 @@ export default class App extends React.Component {
                                 <Route path="/" exact component={Home}/>
                                 <Route path="/orders" component={OrderList}/>
                                 <Route path="/shop" component={Shop}/>
-                                <Route path="/auth" component={AuthorizationContainer}/>
-                                <Route path="/reg" component={RegistrationContainer}/>
+                                <Route path="/auth" component={Auth}/>
+                                <Route path="/reg" component={Reg}/>
                             </Switch>
                         </div>
                         <Footer/>

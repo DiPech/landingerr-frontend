@@ -1,7 +1,9 @@
 import React from 'react';
 import {Button, Col, Row} from "reactstrap";
+import {connect} from "react-redux";
+import {setEmailText, setPasswordText, setRepeatPasswordText} from "../../store/auth/actions";
 
-export default class Registration extends React.Component {
+class Reg extends React.Component {
     constructor(props) {
         super(props);
         this.onEmailChange = this.onEmailChange.bind(this);
@@ -19,7 +21,7 @@ export default class Registration extends React.Component {
     }
     render() {
         return (
-            <div className="registration">
+            <div>
                 <h2>Регистрация</h2>
                 <form>
                     <Row>
@@ -53,3 +55,19 @@ export default class Registration extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        email: state.auth.email,
+        password: state.auth.password,
+        repeatPassword: state.auth.repeatPassword,
+    };
+};
+
+const mapDispatchToProps = {
+    setEmailText,
+    setPasswordText,
+    setRepeatPasswordText
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reg);
