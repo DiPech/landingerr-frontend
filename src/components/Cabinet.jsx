@@ -26,6 +26,7 @@ class Cabinet extends React.Component {
     }
     logout() {
         this.props.setToken(null);
+        localStorage.removeItem("token");
         this.props.toastManager.add("Вы вышли из аккаунта", {appearance: "success"});
     }
     toggleEdit() {

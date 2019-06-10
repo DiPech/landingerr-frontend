@@ -1,8 +1,13 @@
 import React, {Fragment} from "react";
 import {NavLink as RRNavLink, withRouter} from "react-router-dom";
-import {FaSignInAlt, FaUser, FaUserPlus} from "react-icons/fa";
-import {NavLink} from 'reactstrap';
+import {FaPlus, FaSignInAlt, FaUser, FaUserPlus} from "react-icons/fa";
+import {Button, NavLink} from 'reactstrap';
 import {connect} from "react-redux";
+import styled from "styled-components";
+
+const SButton = styled(Button)`
+    padding: 0 5px;
+`;
 
 class Navigation extends React.Component {
     constructor(props) {
@@ -17,8 +22,18 @@ class Navigation extends React.Component {
             <Fragment>
                 <ul className="navbar-nav mr-auto">
                     <NavLink to="/" exact tag={RRNavLink} activeClassName="active">Главная</NavLink>
-                    <NavLink to="/orders" tag={RRNavLink} activeClassName="active">Заказы</NavLink>
                     <NavLink to="/shop" tag={RRNavLink} activeClassName="active">Магазин лендингов</NavLink>
+                    {this.isAuth() && (
+                        <Fragment>
+                            <NavLink to="/orders" exact tag={RRNavLink} activeClassName="active">Заказы</NavLink>
+                            <NavLink to="/orders/create" tag={RRNavLink} activeClassName="d-none">
+                                <SButton color="secondary" outline>
+                                    <FaPlus className="mr-1"/>
+                                    Создать новый заказ
+                                </SButton>
+                            </NavLink>
+                        </Fragment>
+                    )}
                 </ul>
                 <ul className="navbar-nav navbar-right">
                     {this.isAuth() ? (

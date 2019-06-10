@@ -12,13 +12,14 @@ import {
     Input, InputGroup, InputGroupAddon, Label,
     Row, Spinner
 } from "reactstrap";
-import {FaShoppingCart} from "react-icons/fa";
+import {FaEye, FaShoppingCart} from "react-icons/fa";
 import {connect} from "react-redux";
-import {fetchLandings} from "../api/shop";
+import {fetchLandings} from "../api/landing";
 import {bindActionCreators} from "redux";
 import styled from 'styled-components';
 import Nbsp from "./partials/Nbsp";
 import ReactTooltip from "react-tooltip";
+import {Link} from "react-router-dom";
 
 const SImg = styled.img`
     width: 100%;
@@ -37,8 +38,8 @@ class Shop extends React.Component {
                 <h3>Магазин лендингов</h3>
                 <p>
                     Здесь вы найдёте уже готовые, обработанные лендинги. Их можно использовать как есть, а можно
-                    доработать как вам захочется. Обратите внимание на то, что доработка готового лендинга стоит меньше,
-                    чем полное копирование нового.
+                    доработать как вам захочется.<br/>
+                    Доработка готового лендинга стоит дешевле, чем полное копирование нового.
                 </p>
                 <Row>
                     <Col sm="6" md="4">
@@ -62,42 +63,60 @@ class Shop extends React.Component {
                     </Col>
                 </Row>
                 <Row className="mt-4">
-                    {this.props.isLoading && (
+                    {this.props.isLoading ? (
                         <Col xs="12" className="text-center">
                             Загрузка <Spinner size="sm" color="secondary"/>
                         </Col>
+                    ) : (
+                        <Fragment>
+                            {this.props.landings.map((landing, i) => {
+                                return (
+                                    <Col xs="12" sm="6" md="4" xl="3" key={i}>
+                                        <Card className="mb-4">
+                                            <CardHeader>{landing.name}</CardHeader>
+                                            <CardBody>
+                                                <CardText>
+                                                    <SImg src={landing.previewUrl}/>
+                                                </CardText>
+                                                {landing.badges.map((badge, j) => {
+                                                    return (
+                                                        <Fragment key={j}>
+                                                            <Badge color={badge.style}
+                                                                   data-tip={badge.description}
+                                                                   data-for={"tooltip-badge-" + i + "-" + j}>
+                                                                {badge.name}
+                                                            </Badge>
+                                                            <ReactTooltip effect="solid"
+                                                                          id={"tooltip-badge-" + i + "-" + j}/>
+                                                            <Nbsp/>
+                                                        </Fragment>
+                                                    )
+                                                })}
+                                            </CardBody>
+                                            <CardFooter>
+                                                <Link to={landing.screenshotUrl} target="_blank">
+                                                    <Button size="sm" color="primary" id="button-order"
+                                                            data-tip="Посмотреть подробнее"
+                                                            data-for={"tooltip-screenshot-" + i}>
+                                                        <FaEye/>
+                                                    </Button>
+                                                    <ReactTooltip effect="solid"
+                                                                  id={"tooltip-screenshot-" + i}/>
+                                                </Link>
+                                                {' '}
+                                                <Link to={"/orders/create/" + landing.id}>
+                                                    <Button size="sm" color="primary" id="button-order">
+                                                        <FaShoppingCart className="mr-2"/>
+                                                        Заказать
+                                                    </Button>
+                                                </Link>
+                                            </CardFooter>
+                                        </Card>
+                                    </Col>
+                                )
+                            })}
+                        </Fragment>
                     )}
-                    {this.props.landings.map((landing, i) => {
-                        return (
-                            <Col xs="12" sm="6" md="4" xl="3" key={i}>
-                                <Card className="mb-4">
-                                    <CardHeader>{landing.name}</CardHeader>
-                                    <CardBody>
-                                        <CardText>
-                                            <SImg src={landing.previewUrl}/>
-                                        </CardText>
-                                        {landing.badges.map((badge, j) => {
-                                            return (
-                                                <Fragment key={j}>
-                                                    <Badge color={badge.style}
-                                                           data-tip={badge.description} data-for={"tooltip-badge-" + i + "-" + j}>
-                                                        {badge.name}
-                                                    </Badge>
-                                                    <ReactTooltip effect="solid" id={"tooltip-badge-" + i + "-" + j}/>
-                                                    <Nbsp/>
-                                                </Fragment>
-                                            )
-                                        })}
-                                    </CardBody>
-                                    <CardFooter>
-                                        <Button size="sm" color="primary" block id="button-order">
-                                            Заказать <FaShoppingCart/>
-                                        </Button>
-                                    </CardFooter>
-                                </Card>
-                            </Col>
-                        )
-                    })}
                 </Row>
             </div>
         );
