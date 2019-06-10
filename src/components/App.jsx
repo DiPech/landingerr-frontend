@@ -1,23 +1,26 @@
 import React from "react";
-import {createStore} from "redux";
+import {createStore, compose, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
 import rootReducer from "../store/reducers";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Auth from "./auth/Auth";
 import Reg from "./auth/Reg";
 import Home from "./Home";
-import Header from "./common/Header";
-import Footer from "./common/Footer";
+import Header from "./page/Header";
+import Footer from "./page/Footer";
 import OrderList from "./OrderList";
 import Shop from "./Shop";
-import {ToastProvider} from 'react-toast-notifications';
+import {ToastProvider} from "react-toast-notifications";
 import Cabinet from "./Cabinet";
 import AuthRequiredRoute from "./other/AuthRequiredRoute";
+import thunkMiddleware from "redux-thunk"
 
-const store = createStore(
-    rootReducer,
+const middlewareEnhancer = applyMiddleware(thunkMiddleware);
+const composedEnhancers = compose(
+    middlewareEnhancer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+const store = createStore(rootReducer, composedEnhancers);
 
 export default class App extends React.Component {
     render() {
