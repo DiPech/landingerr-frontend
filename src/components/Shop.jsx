@@ -95,10 +95,11 @@ class Shop extends React.Component {
                                             </CardBody>
                                             <CardFooter>
                                                 <Link to={landing.screenshotUrl} target="_blank">
-                                                    <Button size="sm" color="primary" id="button-order"
+                                                    <Button size="sm" color="secondary" id="button-order" outline
                                                             data-tip="Посмотреть подробнее"
                                                             data-for={"tooltip-screenshot-" + i}>
                                                         <FaEye/>
+                                                        <span className="d-inline d-sm-none">Посмотреть</span>
                                                     </Button>
                                                     <ReactTooltip effect="solid"
                                                                   id={"tooltip-screenshot-" + i}/>

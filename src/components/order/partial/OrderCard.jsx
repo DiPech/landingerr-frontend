@@ -1,11 +1,21 @@
 import React, {Fragment} from 'react';
 import {Card, CardTitle, Col, FormGroup, Input, Label} from "reactstrap";
 import styled from "styled-components";
+import Price from "../../partials/Price";
 
 const SFormGroup = styled(FormGroup)`
     &:hover * {
         cursor: pointer;
     }
+`;
+const SCol = styled(Col)`
+    margin-top: 10px;
+`;
+const SCardTitle = styled(CardTitle)`
+    margin-bottom: 0;
+`;
+const SDiv = styled.div`
+    margin-top: 10px;
 `;
 
 export default class OrderCard extends React.Component {
@@ -20,28 +30,42 @@ export default class OrderCard extends React.Component {
     }
     render() {
         return (
-            <Col xs={12} sm={this.props.active ? 6 : 3}>
+            <SCol xs={12} sm={this.props.active ? this.props.colActive : this.props.colNonActive}>
                 <Card body outline color={this.props.active ? "primary" : "secondary"}>
-                    <CardTitle>
+                    <SCardTitle>
                         <SFormGroup check>
-                            <Input type="radio" name={"input_" + this.props.name}
+                            <Input type={this.props.type} name={"input_" + this.props.name}
                                    id={"input-radio-source-" + this.props.value}
                                    value={this.props.value}
                                    checked={this.props.active}
                                    onChange={this.onChange}/>
                             <Label for={"input-radio-source-" + this.props.value}
                                    check={this.props.active}>
-                                {this.props.title}
+                                {this.props.title} –{" "}
+                                {parseInt(this.props.priceMin) === parseInt(this.props.priceMax) && parseInt(this.props.priceMin) === 0 ? (
+                                    <b>Бесплатно</b>
+                                ) : (
+                                    <Fragment>
+                                        {parseInt(this.props.priceMin) === parseInt(this.props.priceMax) ? (
+                                            <Price value={this.props.priceMin}/>
+                                        ) : (
+                                            <Fragment>
+                                                От <Price value={this.props.priceMin}/>
+                                                до <Price value={this.props.priceMax}/>
+                                            </Fragment>
+                                        )}
+                                    </Fragment>
+                                )}
                             </Label>
                         </SFormGroup>
-                    </CardTitle>
+                    </SCardTitle>
                     {this.props.active && (
-                        <Fragment>
+                        <SDiv>
                             {this.props.children}
-                        </Fragment>
+                        </SDiv>
                     )}
                 </Card>
-            </Col>
+            </SCol>
         );
     }
 }

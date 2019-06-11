@@ -1,9 +1,14 @@
 import {
-    ORDER_CHANGE_SOURCE, ORDER_CHANGE_SOURCE_URL,
+    ORDER_CHANGE_SOURCE,
+    ORDER_CHANGE_SOURCE_URL,
     ORDER_FETCH_LANDING_ERROR,
     ORDER_FETCH_LANDING_PENDING,
     ORDER_FETCH_LANDING_SUCCESS,
-    ORDER_DESELECT_LANDING, ORDER_CHANGE_IS_ARCHIVE_ATTACHED
+    ORDER_DESELECT_LANDING,
+    ORDER_CHANGE_IS_ARCHIVE_ATTACHED,
+    ORDER_FETCH_OPTIONS_PENDING,
+    ORDER_FETCH_OPTIONS_SUCCESS,
+    ORDER_FETCH_OPTIONS_ERROR
 } from "./actions";
 
 const defaultState = {
@@ -13,6 +18,8 @@ const defaultState = {
     landing: null,
     isLandingLoading: false,
     isArchiveAttached: false,
+    isOptionsLoading: false,
+    options: null
 };
 
 export const orderReducer = (state = defaultState, action) => {
@@ -50,6 +57,20 @@ export const orderReducer = (state = defaultState, action) => {
         case ORDER_CHANGE_IS_ARCHIVE_ATTACHED:
             return {...state,
                 isArchiveAttached: action.payload
+            };
+        case ORDER_FETCH_OPTIONS_PENDING:
+            return {...state,
+                isOptionsLoading: true
+            };
+        case ORDER_FETCH_OPTIONS_SUCCESS:
+            return {...state,
+                isOptionsLoading: false,
+                options: action.payload
+            };
+        case ORDER_FETCH_OPTIONS_ERROR:
+            return {...state,
+                isOptionsLoading: false,
+                options: null
             };
         default:
             return state;
