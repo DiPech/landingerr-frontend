@@ -99,7 +99,7 @@ class Shop extends React.Component {
                                                             data-tip="Посмотреть подробнее"
                                                             data-for={"tooltip-screenshot-" + i}>
                                                         <FaEye/>
-                                                        <span className="d-inline d-sm-none">Посмотреть</span>
+                                                        <span className="d-inline-block d-sm-none ml-2">Посмотреть</span>
                                                     </Button>
                                                     <ReactTooltip effect="solid"
                                                                   id={"tooltip-screenshot-" + i}/>

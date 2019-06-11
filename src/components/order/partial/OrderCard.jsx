@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Card, CardTitle, Col, FormGroup, Input, Label} from "reactstrap";
 import styled from "styled-components";
 import Price from "../../partials/Price";
+import Help from "../../partials/Help";
 
 const SFormGroup = styled(FormGroup)`
     &:hover * {
@@ -50,8 +51,9 @@ export default class OrderCard extends React.Component {
                                             <Price value={this.props.priceMin}/>
                                         ) : (
                                             <Fragment>
-                                                От <Price value={this.props.priceMin}/>
-                                                до <Price value={this.props.priceMax}/>
+                                                От <Price value={this.props.priceMin}/>{" "}
+                                                до <Price value={this.props.priceMax}/>{" "}
+                                                <Help message="Точная стоимость работ будет определена после оценки сложности"/>
                                             </Fragment>
                                         )}
                                     </Fragment>
