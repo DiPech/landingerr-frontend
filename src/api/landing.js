@@ -1,4 +1,11 @@
-import {fetchLandingPending, fetchLandingSuccess} from "../store/order/actions";
+import {
+    fetchIntegrationPartnersPending,
+    fetchIntegrationPartnersSuccess,
+    fetchLandingPending,
+    fetchLandingSuccess,
+    fetchNotificationChannelsPending,
+    fetchNotificationChannelsSuccess
+} from "../store/order/actions";
 import faker from "faker";
 import {fetchLandingsPending, fetchLandingsSuccess} from "../store/shop/actions";
 import {callIfRandom, repeatExactTimes, repeatRandomTimes} from "../util/callable";
@@ -6,7 +13,6 @@ import {randomIntInterval} from "../util/number";
 import cloneDeep from "lodash/cloneDeep";
 
 export function fetchLanding(id) {
-    console.log('FETCH ' + id);
     return dispatch => {
         dispatch(fetchLandingPending(id));
         setTimeout(function () {
@@ -79,4 +85,73 @@ function getLandings() {
         faker.seed();
     });
     return result;
+}
+
+export function fetchLandingNotificationChannels() {
+    return dispatch => {
+        dispatch(fetchNotificationChannelsPending());
+        setTimeout(function () {
+            let result = getNotificationChannels();
+            dispatch(fetchNotificationChannelsSuccess(result));
+            return result;
+        }, 500);
+    }
+}
+
+function getNotificationChannels() {
+    let counter = 0;
+    return [
+        {
+            id: ++counter,
+            keyword: "email",
+            name: "Email",
+        },
+        {
+            id: ++counter,
+            keyword: "bot_vk",
+            name: "Vk Бот",
+        },
+        {
+            id: ++counter,
+            keyword: "bot_telegram",
+            name: "Telegram Бот",
+        },
+    ];
+}
+
+export function fetchLandingIntegrationPartners() {
+    return dispatch => {
+        dispatch(fetchIntegrationPartnersPending());
+        setTimeout(function () {
+            let result = getIntegrationPartners();
+            dispatch(fetchIntegrationPartnersSuccess(result));
+            return result;
+        }, 500);
+    }
+}
+
+function getIntegrationPartners() {
+    let counter = 0;
+    return [
+        {
+            id: ++counter,
+            keyword: "m1_shop",
+            name: "M1 Shop",
+        },
+        {
+            id: ++counter,
+            keyword: "ad1",
+            name: "Ad1",
+        },
+        {
+            id: ++counter,
+            keyword: "monsterleads",
+            name: "Monsterleads",
+        },
+        {
+            id: ++counter,
+            keyword: "cpagetti",
+            name: "Cpagetti",
+        },
+    ];
 }

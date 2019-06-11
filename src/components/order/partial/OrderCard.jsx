@@ -22,12 +22,10 @@ const SDiv = styled.div`
 export default class OrderCard extends React.Component {
     constructor(props) {
         super(props);
-        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
-    onChange(event) {
-        if (event.target.checked) {
-            this.props.onChange(this.props.value)
-        }
+    handleChange(event) {
+        this.props.onChange(event.target.checked, this.props.value);
     }
     render() {
         return (
@@ -39,21 +37,27 @@ export default class OrderCard extends React.Component {
                                    id={"input-radio-source-" + this.props.value}
                                    value={this.props.value}
                                    checked={this.props.active}
-                                   onChange={this.onChange}/>
+                                   onChange={this.handleChange}/>
                             <Label for={"input-radio-source-" + this.props.value}
                                    check={this.props.active}>
-                                {this.props.title} –{" "}
-                                {parseInt(this.props.priceMin) === parseInt(this.props.priceMax) && parseInt(this.props.priceMin) === 0 ? (
-                                    <b>Бесплатно</b>
-                                ) : (
+                                {this.props.title}
+                                {!this.props.withoutPrice && (
                                     <Fragment>
-                                        {parseInt(this.props.priceMin) === parseInt(this.props.priceMax) ? (
-                                            <Price value={this.props.priceMin}/>
+                                        {" "}–{" "}
+                                        {parseInt(this.props.priceMin) === parseInt(this.props.priceMax) && parseInt(this.props.priceMin) === 0 ? (
+                                            <b>Бесплатно</b>
                                         ) : (
                                             <Fragment>
-                                                От <Price value={this.props.priceMin}/>{" "}
-                                                до <Price value={this.props.priceMax}/>{" "}
-                                                <Help message="Точная стоимость работ будет определена после оценки сложности"/>
+                                                {parseInt(this.props.priceMin) === parseInt(this.props.priceMax) ? (
+                                                    <Price value={this.props.priceMin}/>
+                                                ) : (
+                                                    <Fragment>
+                                                        От <Price value={this.props.priceMin}/>{" "}
+                                                        до <Price value={this.props.priceMax}/>{" "}
+                                                        <Help
+                                                            message="Точная стоимость работ будет определена после оценки сложности"/>
+                                                    </Fragment>
+                                                )}
                                             </Fragment>
                                         )}
                                     </Fragment>

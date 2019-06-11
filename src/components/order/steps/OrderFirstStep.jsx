@@ -47,8 +47,10 @@ class OrderFirstStep extends React.Component {
             this.props.setSourceUrl(event.target.value);
         }
     }
-    updateSource(value) {
-        this.props.setSource(value);
+    updateSource(state, value) {
+        if (state) {
+            this.props.setSource(value);
+        }
     }
     render() {
         return (

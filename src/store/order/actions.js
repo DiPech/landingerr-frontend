@@ -8,6 +8,18 @@ export const ORDER_CHANGE_IS_ARCHIVE_ATTACHED = 'ORDER_CHANGE_IS_ARCHIVE_ATTACHE
 export const ORDER_FETCH_OPTIONS_SUCCESS = 'ORDER_FETCH_OPTIONS_SUCCESS';
 export const ORDER_FETCH_OPTIONS_PENDING = 'ORDER_FETCH_OPTIONS_PENDING';
 export const ORDER_FETCH_OPTIONS_ERROR = 'ORDER_FETCH_OPTIONS_ERROR';
+export const ORDER_SET_OPTION = 'ORDER_SET_OPTION';
+export const ORDER_REMOVE_OPTION = 'ORDER_REMOVE_OPTION';
+export const ORDER_SET_NOTIFICATION_CHANNEL = 'ORDER_SET_NOTIFICATION_CHANNEL';
+export const ORDER_REMOVE_NOTIFICATION_CHANNEL = 'ORDER_REMOVE_NOTIFICATION_CHANNEL';
+export const ORDER_SET_INTEGRATION_WITH_PARTNER_PROGRAM = 'ORDER_SET_INTEGRATION_WITH_PARTNER_PROGRAM';
+export const ORDER_REMOVE_INTEGRATION_WITH_PARTNER_PROGRAM = 'ORDER_REMOVE_INTEGRATION_WITH_PARTNER_PROGRAM';
+export const ORDER_FETCH_NOTIFICATION_CHANNELS_PENDING = 'ORDER_FETCH_NOTIFICATION_CHANNELS_PENDING';
+export const ORDER_FETCH_NOTIFICATION_CHANNELS_SUCCESS = 'ORDER_FETCH_NOTIFICATION_CHANNELS_SUCCESS';
+export const ORDER_FETCH_NOTIFICATION_CHANNELS_ERROR = 'ORDER_FETCH_NOTIFICATION_CHANNELS_ERROR';
+export const ORDER_FETCH_INTEGRATION_PARTNERS_PENDING = 'ORDER_FETCH_INTEGRATION_PARTNERS_PENDING';
+export const ORDER_FETCH_INTEGRATION_PARTNERS_SUCCESS = 'ORDER_FETCH_INTEGRATION_PARTNERS_SUCCESS';
+export const ORDER_FETCH_INTEGRATION_PARTNERS_ERROR = 'ORDER_FETCH_INTEGRATION_PARTNERS_ERROR';
 
 export const fetchLandingPending = (id) => ({
     type: ORDER_FETCH_LANDING_PENDING,
@@ -45,5 +57,51 @@ export const fetchOptionsSuccess = (options) => ({
 });
 export const fetchOptionsError = (message) => ({
     type: ORDER_FETCH_OPTIONS_ERROR,
+    payload: message
+});
+export const setOption = (keyword, data) => ({
+    type: ORDER_SET_OPTION,
+    payload: {keyword, data}
+});
+export const removeOption = (keyword) => ({
+    type: ORDER_REMOVE_OPTION,
+    payload: keyword
+});
+export const setNotificationChannel = (keyword) => ({
+    type: ORDER_SET_NOTIFICATION_CHANNEL,
+    payload: keyword
+});
+export const removeNotificationChannel = (keyword) => ({
+    type: ORDER_REMOVE_NOTIFICATION_CHANNEL,
+    payload: keyword
+});
+export const setIntegrationWithPp = (keyword) => ({
+    type: ORDER_SET_INTEGRATION_WITH_PARTNER_PROGRAM,
+    payload: keyword
+});
+export const removeIntegrationWithPp = (keyword) => ({
+    type: ORDER_REMOVE_INTEGRATION_WITH_PARTNER_PROGRAM,
+    payload: keyword
+});
+export const fetchNotificationChannelsPending = () => ({
+    type: ORDER_FETCH_NOTIFICATION_CHANNELS_PENDING
+});
+export const fetchNotificationChannelsSuccess = (options) => ({
+    type: ORDER_FETCH_NOTIFICATION_CHANNELS_SUCCESS,
+    payload: options
+});
+export const fetchNotificationChannelsError = (message) => ({
+    type: ORDER_FETCH_NOTIFICATION_CHANNELS_ERROR,
+    payload: message
+});
+export const fetchIntegrationPartnersPending = () => ({
+    type: ORDER_FETCH_INTEGRATION_PARTNERS_PENDING
+});
+export const fetchIntegrationPartnersSuccess = (options) => ({
+    type: ORDER_FETCH_INTEGRATION_PARTNERS_SUCCESS,
+    payload: options
+});
+export const fetchIntegrationPartnersError = (message) => ({
+    type: ORDER_FETCH_INTEGRATION_PARTNERS_ERROR,
     payload: message
 });

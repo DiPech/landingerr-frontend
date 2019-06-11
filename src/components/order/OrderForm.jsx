@@ -2,7 +2,11 @@ import React, {Fragment} from 'react';
 import {validateUrl} from "../../util/string";
 import {connect} from "react-redux";
 import OrderFirstStep, {SOURCE_ARCHIVE, SOURCE_SHOP, SOURCE_URL} from "./steps/OrderFirstStep";
-import OrderSecondStep from "./steps/OrderSecondStep";
+import OrderSecondStep, {
+    OPTION_ADD_CLIENT_COUNTERS,
+    OPTION_CLIENT_CHANGES,
+    OPTION_EDIT_CONTACTS
+} from "./steps/OrderSecondStep";
 import OrderThirdStep from "./steps/OrderThirdStep";
 import OrderFifthStep from "./steps/OrderFifthStep";
 import OrderFourthStep from "./steps/OrderFourthStep";
@@ -10,10 +14,14 @@ import OrderFourthStep from "./steps/OrderFourthStep";
 class OrderForm extends React.Component {
     constructor(props) {
         super(props);
+        this.rerender = this.rerender.bind(this);
         this.isFirstStepValid = this.isFirstStepValid.bind(this);
         this.isSecondStepValid = this.isSecondStepValid.bind(this);
         this.isThirdStepValid = this.isThirdStepValid.bind(this);
         this.isFourthStepValid = this.isFourthStepValid.bind(this);
+    }
+    rerender() {
+        this.forceUpdate();
     }
     isFirstStepValid() {
         if (this.props.source === SOURCE_URL) {
@@ -28,13 +36,26 @@ class OrderForm extends React.Component {
         return true;
     }
     isSecondStepValid() {
+        if (Object.keys(this.props.selectedOptions).length === 0) {
+            return false;
+        }
+        for (let keyword in this.props.selectedOptions) {
+            switch (keyword) {
+                case OPTION_EDIT_CONTACTS:
+                case OPTION_ADD_CLIENT_COUNTERS:
+                case OPTION_CLIENT_CHANGES:
+                    if (this.props.selectedOptions[keyword].length === 0) {
+                        return false;
+                    }
+            }
+        }
         return true;
     }
     isThirdStepValid() {
-        return true;
+        return false;
     }
     isFourthStepValid() {
-        return true;
+        return false;
     }
     render() {
         let landingId = this.props.match.params.hasOwnProperty("landingId") ?
@@ -48,12 +69,12 @@ class OrderForm extends React.Component {
                     <Fragment>
                         <hr/>
                         <h4>Шаг 2 - Обработка лендинга</h4>
-                        <OrderSecondStep/>
+                        <OrderSecondStep rerenderParent={this.rerender}/>
                         {this.isSecondStepValid() && (
                             <Fragment>
                                 <hr/>
                                 <h4>Шаг 3 - Выбор интеграций</h4>
-                                <OrderThirdStep/>
+                                <OrderThirdStep rerenderParent={this.rerender}/>
                                 {this.isThirdStepValid() && (
                                     <Fragment>
                                         <hr/>
@@ -83,6 +104,7 @@ const mapStateToProps = (state) => {
         sourceUrl: state.order.sourceUrl,
         landingId: state.order.landingId,
         landing: state.order.landing,
+        selectedOptions: state.order.selectedOptions,
         isArchiveAttached: state.order.isArchiveAttached,
     };
 };

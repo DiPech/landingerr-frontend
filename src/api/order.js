@@ -68,7 +68,7 @@ function getOptions() {
         },
         {
             id: ++counter,
-            keyword: "add_own_counters",
+            keyword: "add_client_counters",
             active: true,
             name: "Добавление собственных счётчиков отслеживания (Я.Метрика, Google Analytics, и д.р.)",
             description: "Позволяет собирать детальную статистику вашего трафика на лендинг",
@@ -88,7 +88,7 @@ function getOptions() {
         },
         {
             id: ++counter,
-            keyword: "add_own_counters",
+            keyword: "optimize_images",
             name: "Оптимизация изображений",
             description: "Уменьшает время загрузки лендинга, что увеличивает конверсию лендинга",
             priceMin: 0,
