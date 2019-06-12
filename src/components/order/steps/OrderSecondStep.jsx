@@ -39,6 +39,8 @@ class OrderSecondStep extends React.Component {
             case OPTION_CLIENT_CHANGES:
                 this.props.setOption(type, event.target.value);
                 break;
+            default:
+                break;
         }
         this.rerender();
     }
@@ -122,9 +124,9 @@ class OrderSecondStep extends React.Component {
                                                         <Input type="textarea" rows={6} id="textarea-client-changes"
                                                                onKeyUp={this.handleClientChangesKeyUp} placeholder="
                                                                Например: удалить картинку в блоке слева, в блоке справа
-                                                               изменить текст на этот «...». Заменить картинку в шапке
-                                                               на картинку №4, прикреплённую ниже.
-                                                               Скриншот: http://joxi.ru/KAx7q5wcZYELw2
+                                                               изменить текст на этот «...».
+                                                               Удалить всё что выделено на скриншоте:
+                                                               http://joxi.ru/KAx7q5wcZYELw2
                                                                "/>
                                                         <FormText color="muted">
                                                             Максимально подробно опишите какие хотите правки.
@@ -135,6 +137,8 @@ class OrderSecondStep extends React.Component {
                                                             стрелки,
                                                             подписать текст, и получить ссылку на изображение, которое
                                                             можно прямо в описание вставить как простой текст).
+                                                            <b>Если вам необходимо прикрепить файл или картинки -
+                                                                прикрепите их в комментарий к заказу на шаге №5.</b>
                                                         </FormText>
                                                     </FormGroup>
                                                 );

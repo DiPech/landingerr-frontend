@@ -9,7 +9,7 @@ import {
 import faker from "faker";
 import {fetchLandingsPending, fetchLandingsSuccess} from "../store/shop/actions";
 import {callIfRandom, repeatExactTimes, repeatRandomTimes} from "../util/callable";
-import {randomIntInterval} from "../util/number";
+import {randomInt} from "../util/number";
 import cloneDeep from "lodash/cloneDeep";
 
 export function fetchLanding(id) {
@@ -70,7 +70,7 @@ function getLandings() {
     };
     let result = [];
     repeatExactTimes(40, function (i) {
-        let screenshotNumber = randomIntInterval(1, screenshotsCount);
+        let screenshotNumber = randomInt(1, screenshotsCount);
         let landing = cloneDeep(landingTemplate);
         landing.id = i + 1;
         landing.name = faker.lorem.sentence();

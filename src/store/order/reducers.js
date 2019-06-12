@@ -1,6 +1,8 @@
 import {
+    ORDER_CHANGE_COMMENT,
+    ORDER_CHANGE_COMMENT_IMAGES,
     ORDER_CHANGE_IS_ARCHIVE_ATTACHED,
-    ORDER_CHANGE_PLACEMENT,
+    ORDER_CHANGE_PLACEMENT, ORDER_CHANGE_PUBLIC,
     ORDER_CHANGE_SOURCE,
     ORDER_CHANGE_SOURCE_URL,
     ORDER_DESELECT_LANDING,
@@ -40,7 +42,10 @@ const defaultState = {
     isPartnersLoading: false,
     partners: null,
     selectedPartners: {},
-    placement: null
+    placement: null,
+    comment: "",
+    commentImageIds: [],
+    public: false
 };
 
 export const orderReducer = (state = defaultState, action) => {
@@ -183,6 +188,21 @@ export const orderReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 placement: action.payload
+            };
+        case ORDER_CHANGE_COMMENT:
+            return {
+                ...state,
+                comment: action.payload
+            };
+        case ORDER_CHANGE_COMMENT_IMAGES:
+            return {
+                ...state,
+                commentImageIds: action.payload
+            };
+        case ORDER_CHANGE_PUBLIC:
+            return {
+                ...state,
+                public: action.payload
             };
         default:
             return state;

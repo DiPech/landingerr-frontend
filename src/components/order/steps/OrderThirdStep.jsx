@@ -102,6 +102,8 @@ class OrderThirdStep extends React.Component {
                                 case OPTION_SEND_LEADS_TO_PP:
                                     selectedValues = this.props.selectedPartners;
                                     break;
+                                default:
+                                    break;
                             }
                             return (
                                 <OrderCard key={i} type="checkbox"

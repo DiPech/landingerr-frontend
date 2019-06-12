@@ -1,7 +1,7 @@
-import {randomIntInterval} from "./number";
+import {randomInt} from "./number";
 
 export function callIfRandom(percent, callable) {
-    if (randomIntInterval(1, 100) <= percent) {
+    if (randomInt(1, 100) <= percent) {
         callable();
     }
 }
@@ -13,5 +13,5 @@ export function repeatExactTimes(number, callable) {
 }
 
 export function repeatRandomTimes(min, max, callable) {
-    repeatExactTimes(randomIntInterval(min, max), callable);
+    repeatExactTimes(randomInt(min, max), callable);
 }

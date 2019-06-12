@@ -21,6 +21,9 @@ export const ORDER_FETCH_INTEGRATION_PARTNERS_PENDING = 'ORDER_FETCH_INTEGRATION
 export const ORDER_FETCH_INTEGRATION_PARTNERS_SUCCESS = 'ORDER_FETCH_INTEGRATION_PARTNERS_SUCCESS';
 export const ORDER_FETCH_INTEGRATION_PARTNERS_ERROR = 'ORDER_FETCH_INTEGRATION_PARTNERS_ERROR';
 export const ORDER_CHANGE_PLACEMENT = 'ORDER_CHANGE_PLACEMENT';
+export const ORDER_CHANGE_COMMENT = 'ORDER_CHANGE_COMMENT';
+export const ORDER_CHANGE_COMMENT_IMAGES = 'ORDER_CHANGE_COMMENT_IMAGES';
+export const ORDER_CHANGE_PUBLIC = 'ORDER_CHANGE_PUBLIC';
 
 export const fetchLandingPending = (id) => ({
     type: ORDER_FETCH_LANDING_PENDING,
@@ -109,4 +112,16 @@ export const fetchIntegrationPartnersError = (message) => ({
 export const setPlacement = (placement) => ({
     type: ORDER_CHANGE_PLACEMENT,
     payload: placement
+});
+export const setComment = (comment) => ({
+    type: ORDER_CHANGE_COMMENT,
+    payload: comment
+});
+export const setCommentImages = (imageIds) => ({
+    type: ORDER_CHANGE_COMMENT_IMAGES,
+    payload: imageIds
+});
+export const setPublic = (isPublic) => ({
+    type: ORDER_CHANGE_PUBLIC,
+    payload: isPublic
 });

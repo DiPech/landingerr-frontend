@@ -30,6 +30,8 @@ class OrderFourthStep extends React.Component {
             case OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER:
                 this.props.setOption(type, event.target.value);
                 break;
+            default:
+                break;
         }
         this.rerender();
     }

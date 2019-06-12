@@ -45,14 +45,12 @@ class OrderForm extends React.Component {
         if (!hasProps(this.props.selectedOptions)) {
             return false;
         }
+        let optionsToCheck = [OPTION_EDIT_CONTACTS, OPTION_ADD_CLIENT_COUNTERS, OPTION_CLIENT_CHANGES];
         for (let keyword in this.props.selectedOptions) {
-            switch (keyword) {
-                case OPTION_EDIT_CONTACTS:
-                case OPTION_ADD_CLIENT_COUNTERS:
-                case OPTION_CLIENT_CHANGES:
-                    if (this.props.selectedOptions[keyword].length === 0) {
-                        return false;
-                    }
+            if (optionsToCheck.includes(keyword)) {
+                if (this.props.selectedOptions[keyword].length === 0) {
+                    return false;
+                }
             }
         }
         return true;
@@ -65,17 +63,14 @@ class OrderForm extends React.Component {
             }
             let keyword = option.keyword;
             if (this.props.selectedOptions.hasOwnProperty(keyword)) {
-                switch (keyword) {
-                    case OPTION_COLLECT_LEADS:
-                        if (!hasProps(this.props.selectedChannels)) {
-                            return false;
-                        }
-                        break;
-                    case OPTION_SEND_LEADS_TO_PP:
-                        if (!hasProps(this.props.selectedPartners)) {
-                            return false;
-                        }
-                        break;
+                if (keyword === OPTION_COLLECT_LEADS) {
+                    if (!hasProps(this.props.selectedChannels)) {
+                        return false;
+                    }
+                } else if (keyword === OPTION_SEND_LEADS_TO_PP) {
+                    if (!hasProps(this.props.selectedPartners)) {
+                        return false;
+                    }
                 }
             }
         }
