@@ -44,7 +44,7 @@ class Shop extends React.Component {
                 <Row>
                     <Col sm="6" md="4">
                         <FormGroup>
-                            <Label for="select-objects-per-page">Лендингов на странице</Label>
+                            <Label for="select-objects-per-page">Лендингов на странице:</Label>
                             <Input type="select" name="select" id="select-objects-per-page">
                                 <option>Показывать по 10 шт.</option>
                                 <option>Показывать по 25 шт.</option>
@@ -54,7 +54,7 @@ class Shop extends React.Component {
                         </FormGroup>
                     </Col>
                     <Col sm="6" md="8" xl={{size: 6, offset: 2}}>
-                        <Label for="input-search">Поиск по ключевым словам</Label>
+                        <Label for="input-search">Поиск по ключевым словам:</Label>
                         <InputGroup>
                             <Input type="text" placeholder="Например: Ab Gymnic, похудение, миостимулятор"
                                    id="input-search"/>

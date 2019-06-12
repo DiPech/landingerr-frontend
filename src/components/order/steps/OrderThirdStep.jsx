@@ -109,10 +109,14 @@ class OrderThirdStep extends React.Component {
                                                         <Row>
                                                             {this.props.channels.map((channel, j) => {
                                                                 return (
-                                                                    <OrderCard key={"channel-" + i + "-" + j} type="checkbox"
+                                                                    <OrderCard key={"channel-" + i + "-" + j}
+                                                                               type="checkbox"
                                                                                name="channel" title={channel.name}
                                                                                colNonActive={4} colActive={4}
                                                                                withoutPrice
+                                                                               titleHelp="
+                                                                               Настройку уведомлений можно будет
+                                                                               сделать позже в личном кабинете"
                                                                                active={this.isChannelSelected(channel.keyword)}
                                                                                value={channel.keyword}
                                                                                onChange={this.handleChannelChange}/>
@@ -127,10 +131,14 @@ class OrderThirdStep extends React.Component {
                                                         <Row>
                                                             {this.props.partners.map((partner, j) => {
                                                                 return (
-                                                                    <OrderCard key={"partner-" + i + "-" + j} type="checkbox"
+                                                                    <OrderCard key={"partner-" + i + "-" + j}
+                                                                               type="checkbox"
                                                                                name="partner" title={partner.name}
                                                                                colNonActive={3} colActive={3}
                                                                                withoutPrice
+                                                                               titleHelp="
+                                                                               Настройку уведомлений можно будет
+                                                                               сделать позже в личном кабинете"
                                                                                active={this.isPartnerSelected(partner.keyword)}
                                                                                value={partner.keyword}
                                                                                onChange={this.handlePartnerChange}/>

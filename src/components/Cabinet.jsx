@@ -39,21 +39,21 @@ class Cabinet extends React.Component {
         if (this.state.isEdit) {
             content = <Fragment>
                 <div className="form-group">
-                    <label>Имя</label>
+                    <label>Имя:</label>
                     <input type="email" className="form-control"
                            placeholder="Иванов Иван" required
                            value={this.props.name}
                            onChange={this.onNameChange}/>
                 </div>
                 <div className="form-group">
-                    <label>Email</label>
+                    <label>Email:</label>
                     <input type="email" className="form-control"
                            placeholder="ivan.ivanov@gmail.com" required
                            value={this.props.email}
                            onChange={this.onEmailChange}/>
                 </div>
                 <div className="form-group">
-                    <label>Номер телефона</label>
+                    <label>Номер телефона:</label>
                     <input type="text" className="form-control"
                            placeholder="+7 (987) 654-32-10" required
                            value={this.props.phone}

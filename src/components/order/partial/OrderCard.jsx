@@ -38,9 +38,15 @@ export default class OrderCard extends React.Component {
                                    value={this.props.value}
                                    checked={this.props.active}
                                    onChange={this.handleChange}/>
-                            <Label for={"input-radio-source-" + this.props.value}
+                            <Label className="mb-0" for={"input-radio-source-" + this.props.value}
                                    check={this.props.active}>
                                 {this.props.title}
+                                {this.props.titleHelp && (
+                                    <Fragment>
+                                        {" "}<Help
+                                        message={this.props.titleHelp}/>
+                                    </Fragment>
+                                )}
                                 {!this.props.withoutPrice && (
                                     <Fragment>
                                         {" "}–{" "}
@@ -63,9 +69,14 @@ export default class OrderCard extends React.Component {
                                     </Fragment>
                                 )}
                             </Label>
+                            {this.props.description && (
+                                <Fragment>
+                                    <br/><small className="d-block text-muted">{this.props.description}</small>
+                                </Fragment>
+                            )}
                         </SFormGroup>
                     </SCardTitle>
-                    {this.props.active && (
+                    {this.props.active && this.props.children && (
                         <SDiv>
                             {this.props.children}
                         </SDiv>

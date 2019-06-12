@@ -67,7 +67,7 @@ class OrderSecondStep extends React.Component {
                             }
                             return (
                                 <OrderCard key={i} type="checkbox"
-                                           name="option" title={option.name}
+                                           name="option" title={option.name} description={option.description}
                                            colNonActive={12} colActive={12}
                                            priceMin={option.priceMin} priceMax={option.priceMax}
                                            active={this.isOptionSelected(option.keyword)}
@@ -79,7 +79,7 @@ class OrderSecondStep extends React.Component {
                                                 return (
                                                     <FormGroup>
                                                         <Label for="textarea-contacts">
-                                                            Информация о заменяемых контактах
+                                                            Информация о заменяемых контактах:
                                                         </Label>
                                                         <Input type="textarea" rows={6} id="textarea-contacts"
                                                                onKeyUp={this.handleContactsKeyUp}
@@ -97,7 +97,7 @@ class OrderSecondStep extends React.Component {
                                                 return (
                                                     <FormGroup>
                                                         <Label for="textarea-client-counters">
-                                                            Коды счётчиков
+                                                            Коды счётчиков:
                                                         </Label>
                                                         <Input type="textarea" rows={6} id="textarea-client-counters"
                                                                onKeyUp={this.handleClientCountersKeyUp}
@@ -114,7 +114,7 @@ class OrderSecondStep extends React.Component {
                                                 return (
                                                     <FormGroup>
                                                         <Label for="textarea-client-changes">
-                                                            Опишите что необходимо изменить
+                                                            Опишите что необходимо изменить:
                                                         </Label>
                                                         <Input type="textarea" rows={6} id="textarea-client-changes"
                                                                onKeyUp={this.handleClientChangesKeyUp} placeholder="
