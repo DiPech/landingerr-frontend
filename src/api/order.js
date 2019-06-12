@@ -20,7 +20,7 @@ function getOptions() {
             keyword: "from_url",
             active: true,
             name: "Скопировать лендинг по URL",
-            description: "",
+            description: "Скачаем лендинг по вашей ссылке",
             priceMin: 300,
             priceMax: 300,
             group: "source"
@@ -30,7 +30,7 @@ function getOptions() {
             keyword: "from_shop",
             active: true,
             name: "Лендинг из магазина лендингов",
-            description: "",
+            description: "Сэкономьте, приобретя уже готовый лендинг",
             priceMin: 100,
             priceMax: 100,
             group: "source"
@@ -40,7 +40,7 @@ function getOptions() {
             keyword: "from_archive",
             active: true,
             name: "Доработка присланного лендинга",
-            description: "",
+            description: "На случай, если уже есть лендинг",
             priceMin: 50,
             priceMax: 50,
             group: "source"
@@ -146,7 +146,7 @@ function getOptions() {
             keyword: "download_landing",
             active: true,
             name: "Скачать архив с лендингом",
-            description: "",
+            description: "Вам нужно будет загрузить содержимое архива с лендингом на хостинг по FTP.",
             priceMin: 0,
             priceMax: 0,
             group: "placement"
@@ -156,7 +156,7 @@ function getOptions() {
             keyword: "deploy_to_client_server",
             active: true,
             name: "Загрузить на ваш сервер",
-            description: "Необходимо указать FTP-доступ к вашему хостингу",
+            description: "Мы сделаем всю грязную техническую работу за вас!",
             priceMin: 50,
             priceMax: 50,
             group: "placement"

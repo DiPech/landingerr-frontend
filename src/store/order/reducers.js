@@ -1,5 +1,6 @@
 import {
     ORDER_CHANGE_IS_ARCHIVE_ATTACHED,
+    ORDER_CHANGE_PLACEMENT,
     ORDER_CHANGE_SOURCE,
     ORDER_CHANGE_SOURCE_URL,
     ORDER_DESELECT_LANDING,
@@ -39,6 +40,7 @@ const defaultState = {
     isPartnersLoading: false,
     partners: null,
     selectedPartners: {},
+    placement: null
 };
 
 export const orderReducer = (state = defaultState, action) => {
@@ -176,6 +178,11 @@ export const orderReducer = (state = defaultState, action) => {
                 ...state,
                 isPartnersLoading: false,
                 partners: null
+            };
+        case ORDER_CHANGE_PLACEMENT:
+            return {
+                ...state,
+                placement: action.payload
             };
         default:
             return state;

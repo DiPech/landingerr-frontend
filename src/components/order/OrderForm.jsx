@@ -7,9 +7,15 @@ import OrderSecondStep, {
     OPTION_CLIENT_CHANGES,
     OPTION_EDIT_CONTACTS
 } from "./steps/OrderSecondStep";
-import OrderThirdStep from "./steps/OrderThirdStep";
+import OrderThirdStep, {
+    OPTION_COLLECT_LEADS,
+    OPTION_GROUP_INTEGRATIONS,
+    OPTION_SEND_LEADS_TO_PP
+} from "./steps/OrderThirdStep";
 import OrderFifthStep from "./steps/OrderFifthStep";
-import OrderFourthStep from "./steps/OrderFourthStep";
+import OrderFourthStep, {OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER} from "./steps/OrderFourthStep";
+import {hasProps} from "../../util/object";
+import {isValidOptionValue} from "./functions";
 
 class OrderForm extends React.Component {
     constructor(props) {
@@ -36,7 +42,7 @@ class OrderForm extends React.Component {
         return true;
     }
     isSecondStepValid() {
-        if (Object.keys(this.props.selectedOptions).length === 0) {
+        if (!hasProps(this.props.selectedOptions)) {
             return false;
         }
         for (let keyword in this.props.selectedOptions) {
@@ -52,10 +58,34 @@ class OrderForm extends React.Component {
         return true;
     }
     isThirdStepValid() {
-        return false;
+        for (let i in this.props.options) {
+            let option = this.props.options[i];
+            if (option.group !== OPTION_GROUP_INTEGRATIONS) {
+                continue;
+            }
+            let keyword = option.keyword;
+            if (this.props.selectedOptions.hasOwnProperty(keyword)) {
+                switch (keyword) {
+                    case OPTION_COLLECT_LEADS:
+                        if (!hasProps(this.props.selectedChannels)) {
+                            return false;
+                        }
+                        break;
+                    case OPTION_SEND_LEADS_TO_PP:
+                        if (!hasProps(this.props.selectedPartners)) {
+                            return false;
+                        }
+                        break;
+                }
+            }
+        }
+        return true;
     }
     isFourthStepValid() {
-        return false;
+        if (this.props.placement === OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER) {
+            return isValidOptionValue(this.props.selectedOptions, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER);
+        }
+        return true;
     }
     render() {
         let landingId = this.props.match.params.hasOwnProperty("landingId") ?
@@ -79,7 +109,7 @@ class OrderForm extends React.Component {
                                     <Fragment>
                                         <hr/>
                                         <h4>Шаг 4 - Где разместить лендинг</h4>
-                                        <OrderFourthStep/>
+                                        <OrderFourthStep rerenderParent={this.rerender}/>
                                         {this.isFourthStepValid() && (
                                             <Fragment>
                                                 <hr/>
@@ -101,11 +131,15 @@ class OrderForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         source: state.order.source,
+        placement: state.order.placement,
         sourceUrl: state.order.sourceUrl,
         landingId: state.order.landingId,
         landing: state.order.landing,
         selectedOptions: state.order.selectedOptions,
         isArchiveAttached: state.order.isArchiveAttached,
+        options: state.order.options,
+        selectedChannels: state.order.selectedChannels,
+        selectedPartners: state.order.selectedPartners,
     };
 };
 

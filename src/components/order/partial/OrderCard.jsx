@@ -23,14 +23,24 @@ export default class OrderCard extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.getCardColor = this.getCardColor.bind(this);
     }
     handleChange(event) {
         this.props.onChange(event.target.checked, this.props.value);
     }
+    getCardColor() {
+        if (this.props.active) {
+            if (this.props.error) {
+                return "warning";
+            }
+            return "success";
+        }
+        return "secondary";
+    }
     render() {
         return (
             <SCol xs={12} sm={this.props.active ? this.props.colActive : this.props.colNonActive}>
-                <Card body outline color={this.props.active ? "primary" : "secondary"}>
+                <Card body outline color={this.getCardColor()}>
                     <SCardTitle>
                         <SFormGroup check>
                             <Input type={this.props.type} name={"input_" + this.props.name}

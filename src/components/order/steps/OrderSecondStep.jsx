@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux";
 import {fetchOrderOptions} from "../../../api/order";
 import {removeOption, setOption} from "../../../store/order/actions";
 import Col from "reactstrap/es/Col";
+import {isValidOptionValue} from "../functions";
 
 const OPTION_GROUP_EDIT = "edit";
 export const OPTION_EDIT_CONTACTS = "edit_contacts";
@@ -52,6 +53,7 @@ class OrderSecondStep extends React.Component {
     isOptionSelected(keyword) {
         return this.props.selectedOptions.hasOwnProperty(keyword);
     }
+
     render() {
         return (
             <Row>
@@ -72,6 +74,7 @@ class OrderSecondStep extends React.Component {
                                            priceMin={option.priceMin} priceMax={option.priceMax}
                                            active={this.isOptionSelected(option.keyword)}
                                            value={option.keyword}
+                                           error={!isValidOptionValue(this.props.selectedOptions, option.keyword)}
                                            onChange={this.handleChange}>
                                     {(function () {
                                         switch (option.keyword) {
@@ -126,8 +129,10 @@ class OrderSecondStep extends React.Component {
                                                         <FormText color="muted">
                                                             Максимально подробно опишите какие хотите правки.
                                                             Вы можете прикреплять изображения и ссылаться на них при
-                                                            описании. Для картинок также можно воспользоваться программой{" "}
-                                                            <b>Joxi</b> (делает скриншот, можно тут же нарисовать стрелки,
+                                                            описании. Для картинок также можно воспользоваться
+                                                            программой{" "}
+                                                            <b>Joxi</b> (делает скриншот, можно тут же нарисовать
+                                                            стрелки,
                                                             подписать текст, и получить ссылку на изображение, которое
                                                             можно прямо в описание вставить как простой текст).
                                                         </FormText>

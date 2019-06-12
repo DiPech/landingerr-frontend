@@ -7,10 +7,15 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {fetchLanding} from "../../../api/landing";
 import {deselectLanding, setArchiveAttached, setSource, setSourceUrl} from "../../../store/order/actions";
+import {getOptionDescription} from "../functions";
+import {validateUrl} from "../../../util/string";
 
 export const SOURCE_URL = "url";
 export const SOURCE_SHOP = "shop";
 export const SOURCE_ARCHIVE = "archive";
+export const OPTION_SOURCE_FROM_URL = "from_url";
+export const OPTION_SOURCE_FROM_SHOP = "from_shop";
+export const OPTION_SOURCE_FROM_ARCHIVE = "from_archive";
 
 class OrderFirstStep extends React.Component {
     constructor(props) {
@@ -57,9 +62,11 @@ class OrderFirstStep extends React.Component {
             <Row>
                 <OrderCard type="radio"
                            name="source" title="Ввести URL"
+                           description={getOptionDescription(this.props.options, OPTION_SOURCE_FROM_URL)}
                            colNonActive={3} colActive={6}
                            priceMin={300} priceMax={300}
                            active={this.props.source === SOURCE_URL} value={SOURCE_URL}
+                           error={!validateUrl(this.props.sourceUrl)}
                            onChange={this.updateSource}>
                     <FormGroup>
                         <Input type="text" name="source" placeholder="Например: https://superlanding.com"
@@ -68,9 +75,11 @@ class OrderFirstStep extends React.Component {
                 </OrderCard>
                 <OrderCard type="radio"
                            name="source" title="Выбрать из магазина"
+                           description={getOptionDescription(this.props.options, OPTION_SOURCE_FROM_SHOP)}
                            colNonActive={3} colActive={6}
                            priceMin={100} priceMax={100}
                            active={this.props.source === SOURCE_SHOP} value={SOURCE_SHOP}
+                           error={this.props.landing === null}
                            onChange={this.updateSource}>
                     {this.props.isLandingLoading ? (
                         <div>
@@ -96,9 +105,11 @@ class OrderFirstStep extends React.Component {
                 </OrderCard>
                 <OrderCard type="radio"
                            name="source" title="Прикрепить архив"
+                           description={getOptionDescription(this.props.options, OPTION_SOURCE_FROM_ARCHIVE)}
                            colNonActive={3} colActive={6}
                            priceMin={0} priceMax={0}
                            active={this.props.source === SOURCE_ARCHIVE} value={SOURCE_ARCHIVE}
+                           error={!this.props.isArchiveAttached}
                            onChange={this.updateSource}>
                     <FormGroup>
                         <Input type="file" name="file" accept=".zip,.rar,.7zip,.tar"
@@ -121,6 +132,7 @@ const mapStateToProps = (state) => {
         landing: state.order.landing,
         isLandingLoading: state.order.isLandingLoading,
         isArchiveAttached: state.order.isArchiveAttached,
+        options: state.order.options,
     };
 };
 

@@ -20,6 +20,7 @@ export const ORDER_FETCH_NOTIFICATION_CHANNELS_ERROR = 'ORDER_FETCH_NOTIFICATION
 export const ORDER_FETCH_INTEGRATION_PARTNERS_PENDING = 'ORDER_FETCH_INTEGRATION_PARTNERS_PENDING';
 export const ORDER_FETCH_INTEGRATION_PARTNERS_SUCCESS = 'ORDER_FETCH_INTEGRATION_PARTNERS_SUCCESS';
 export const ORDER_FETCH_INTEGRATION_PARTNERS_ERROR = 'ORDER_FETCH_INTEGRATION_PARTNERS_ERROR';
+export const ORDER_CHANGE_PLACEMENT = 'ORDER_CHANGE_PLACEMENT';
 
 export const fetchLandingPending = (id) => ({
     type: ORDER_FETCH_LANDING_PENDING,
@@ -104,4 +105,8 @@ export const fetchIntegrationPartnersSuccess = (options) => ({
 export const fetchIntegrationPartnersError = (message) => ({
     type: ORDER_FETCH_INTEGRATION_PARTNERS_ERROR,
     payload: message
+});
+export const setPlacement = (placement) => ({
+    type: ORDER_CHANGE_PLACEMENT,
+    payload: placement
 });

@@ -14,8 +14,9 @@ import Row from "reactstrap/es/Row";
 import {Spinner} from "reactstrap";
 import Col from "reactstrap/es/Col";
 import {fetchLandingIntegrationPartners, fetchLandingNotificationChannels} from "../../../api/landing";
+import {hasProps} from "../../../util/object";
 
-const OPTION_GROUP_INTEGRATIONS = "integrations";
+export const OPTION_GROUP_INTEGRATIONS = "integrations";
 export const OPTION_COLLECT_LEADS = "collect_leads";
 export const OPTION_SEND_LEADS_TO_PP = "send_leads_to_pp";
 
@@ -93,13 +94,23 @@ class OrderThirdStep extends React.Component {
                             if (option.group !== OPTION_GROUP_INTEGRATIONS) {
                                 return (" ");
                             }
+                            let selectedValues = {};
+                            switch (option.keyword) {
+                                case OPTION_COLLECT_LEADS:
+                                    selectedValues = this.props.selectedChannels;
+                                    break;
+                                case OPTION_SEND_LEADS_TO_PP:
+                                    selectedValues = this.props.selectedPartners;
+                                    break;
+                            }
                             return (
                                 <OrderCard key={i} type="checkbox"
-                                           name="option" title={option.name}
+                                           name="option" title={option.name} description={option.description}
                                            colNonActive={12} colActive={12}
                                            priceMin={option.priceMin} priceMax={option.priceMax}
                                            active={this.isOptionSelected(option.keyword)}
                                            value={option.keyword}
+                                           error={!hasProps(selectedValues)}
                                            onChange={this.handleOptionChange}>
                                     {(function () {
                                         switch (option.keyword) {
