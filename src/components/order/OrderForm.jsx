@@ -30,7 +30,6 @@ import {fetchLandingIntegrationPartners, fetchLandingNotificationChannels} from 
 class OrderForm extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
         this.isAllDataFetched = this.isAllDataFetched.bind(this);
         this.isFirstStepValid = this.isFirstStepValid.bind(this);
         this.isSecondStepValid = this.isSecondStepValid.bind(this);
@@ -49,9 +48,6 @@ class OrderForm extends React.Component {
         if (this.props.partners === null) {
             this.props.fetchLandingIntegrationPartners();
         }
-    }
-    rerender() {
-        this.forceUpdate();
     }
     isAllDataFetched() {
         return !this.props.isOptionsLoading && !this.props.isChannelsLoading && !this.props.isPartnersLoading &&
@@ -118,7 +114,6 @@ class OrderForm extends React.Component {
     }
     showStep(number) {
         this.props.setStepShowStatus(number, true);
-        this.rerender();
     }
     render() {
         let landingId = this.props.match.params.hasOwnProperty("landingId") ?
@@ -133,7 +128,7 @@ class OrderForm extends React.Component {
                 ) : (
                     <Fragment>
                         <h4>Шаг 1 - Откуда брать лендинг</h4>
-                        <OrderFirstStep rerenderParent={this.rerender} urlParameterLandingId={landingId}/>
+                        <OrderFirstStep urlParameterLandingId={landingId}/>
                         {this.isFirstStepValid() && (
                             <Fragment>
                                 {!this.isStepVisible(2) ? (
@@ -145,7 +140,7 @@ class OrderForm extends React.Component {
                                     <Fragment>
                                         <hr/>
                                         <h4>Шаг 2 - Обработка лендинга</h4>
-                                        <OrderSecondStep rerenderParent={this.rerender}/>
+                                        <OrderSecondStep/>
                                         {this.isSecondStepValid() && (
                                             <Fragment>
                                                 {!this.isStepVisible(3) ? (
@@ -157,7 +152,7 @@ class OrderForm extends React.Component {
                                                     <Fragment>
                                                         <hr/>
                                                         <h4>Шаг 3 - Выбор интеграций</h4>
-                                                        <OrderThirdStep rerenderParent={this.rerender}/>
+                                                        <OrderThirdStep/>
                                                         {this.isThirdStepValid() && (
                                                             <Fragment>
                                                                 {!this.isStepVisible(4) ? (
@@ -170,8 +165,7 @@ class OrderForm extends React.Component {
                                                                     <Fragment>
                                                                         <hr/>
                                                                         <h4>Шаг 4 - Где разместить лендинг</h4>
-                                                                        <OrderFourthStep
-                                                                            rerenderParent={this.rerender}/>
+                                                                        <OrderFourthStep/>
                                                                         {this.isFourthStepValid() && (
                                                                             <Fragment>
                                                                                 {!this.isStepVisible(5) ? (
@@ -187,8 +181,7 @@ class OrderForm extends React.Component {
                                                                                     <Fragment>
                                                                                         <hr/>
                                                                                         <h4>Шаг 5 - Завершение</h4>
-                                                                                        <OrderFifthStep
-                                                                                            rerenderParent={this.rerender}/>
+                                                                                        <OrderFifthStep/>
                                                                                     </Fragment>
                                                                                 )}
                                                                             </Fragment>

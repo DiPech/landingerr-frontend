@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import logo from "../../img/herr.png"
 import styled from 'styled-components';
 import {Collapse, Navbar, NavbarToggler} from 'reactstrap';
@@ -9,7 +9,7 @@ const SLogo = styled.img`
     max-height: 27px;
 `;
 
-class Header extends React.Component {
+export default class Header extends React.Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
@@ -37,5 +37,3 @@ class Header extends React.Component {
         );
     }
 }
-
-export default withRouter(Header);

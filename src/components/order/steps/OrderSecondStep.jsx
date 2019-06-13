@@ -15,23 +15,17 @@ import {
 class OrderSecondStep extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleContactsKeyUp = this.handleKeyUp.bind(this, OPTION_EDIT_EDIT_CONTACTS);
         this.handleClientCountersKeyUp = this.handleKeyUp.bind(this, OPTION_EDIT_ADD_CLIENT_COUNTERS);
         this.handleClientChangesKeyUp = this.handleKeyUp.bind(this, OPTION_EDIT_CLIENT_CHANGES);
         this.isOptionSelected = this.isOptionSelected.bind(this);
     }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
-    }
     handleKeyUp(type, event) {
         let optionsWithKeyUp = [OPTION_EDIT_EDIT_CONTACTS, OPTION_EDIT_ADD_CLIENT_COUNTERS, OPTION_EDIT_CLIENT_CHANGES];
         if (optionsWithKeyUp.includes(type)) {
             this.props.setOption(type, event.target.value);
         }
-        this.rerender();
     }
     handleOptionChange(state, keyword) {
         if (state) {
@@ -39,7 +33,6 @@ class OrderSecondStep extends React.Component {
         } else {
             this.props.removeOption(keyword);
         }
-        this.rerender();
     }
     isOptionSelected(keyword) {
         return this.props.selectedOptions.hasOwnProperty(keyword);

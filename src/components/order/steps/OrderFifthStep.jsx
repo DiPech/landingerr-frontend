@@ -11,7 +11,6 @@ import Price from "../../partials/Price";
 class OrderFifthStep extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
         this.handleImageUpload = this.handleImageUpload.bind(this);
         this.handleCommentKeyUp = this.handleCommentKeyUp.bind(this);
         this.handlePublicChange = this.handlePublicChange.bind(this);
@@ -20,21 +19,14 @@ class OrderFifthStep extends React.Component {
         this.calcMaxPrice = this.calcMaxPrice.bind(this);
         this.isExactPrice = this.isExactPrice.bind(this);
     }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
-    }
     handlePublicChange(state, value) {
         this.props.setPublic(state);
-        this.rerender();
     }
     handleImageUpload(imageIds) {
         this.props.setCommentImages(imageIds);
-        this.rerender();
     }
     handleCommentKeyUp(comment) {
         this.props.setComment(comment);
-        this.rerender();
     }
     calcPrice(priceKey) {
         let price = 0;

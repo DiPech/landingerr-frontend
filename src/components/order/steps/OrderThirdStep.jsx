@@ -21,15 +21,10 @@ import {
 class OrderThirdStep extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleChannelChange = this.handleChannelChange.bind(this);
         this.handlePartnerChange = this.handlePartnerChange.bind(this);
         this.isOptionSelected = this.isOptionSelected.bind(this);
-    }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
     }
     handleOptionChange(state, keyword) {
         if (state) {
@@ -37,7 +32,6 @@ class OrderThirdStep extends React.Component {
         } else {
             this.props.removeOption(keyword);
         }
-        this.rerender();
     }
     handleChannelChange(state, keyword) {
         if (state) {
@@ -45,7 +39,6 @@ class OrderThirdStep extends React.Component {
         } else {
             this.props.removeNotificationChannel(keyword);
         }
-        this.rerender();
     }
     handlePartnerChange(state, keyword) {
         if (state) {
@@ -53,7 +46,6 @@ class OrderThirdStep extends React.Component {
         } else {
             this.props.removeIntegrationWithPp(keyword);
         }
-        this.rerender();
     }
     isOptionSelected(keyword) {
         return this.props.selectedOptions.hasOwnProperty(keyword);

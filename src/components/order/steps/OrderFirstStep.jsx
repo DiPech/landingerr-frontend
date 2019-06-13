@@ -15,27 +15,20 @@ import Col from "reactstrap/es/Col";
 class OrderFirstStep extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
         this.handleSourceUrlKeyUp = this.handleKeyUp.bind(this, OPTION_SOURCE_FROM_URL);
         this.handleSourceChange = this.handleSourceChange.bind(this);
         this.handleSourceArchiveChange = this.handleSourceArchiveChange.bind(this);
         this.fetchLandingInfo = this.fetchLandingInfo.bind(this);
-    }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
     }
     componentWillMount() {
         this.fetchLandingInfo();
     }
     handleSourceArchiveChange(files) {
         this.props.setArchiveAttached(files.length > 0);
-        this.rerender();
     }
     handleKeyUp(type, event) {
         if (type === OPTION_SOURCE_FROM_URL) {
             this.props.setSourceUrl(event.target.value);
-            this.rerender();
         }
     }
     handleSourceChange(state, value) {

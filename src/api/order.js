@@ -91,8 +91,8 @@ function getOptions() {
             keyword: "optimize_images",
             name: "Оптимизация изображений",
             description: "Уменьшает время загрузки лендинга, что увеличивает конверсию лендинга",
-            priceMin: 0,
-            priceMax: 0,
+            priceMin: 100,
+            priceMax: 100,
             group: "edit"
         },
         {

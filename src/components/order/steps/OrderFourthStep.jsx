@@ -10,25 +10,18 @@ import {OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER, OPTION_PLACEMENT_DOWNLOAD_LAND
 class OrderFourthStep extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
         this.handlePlacementChange = this.handlePlacementChange.bind(this);
         this.handleAccessesToServerKeyUp = this.handleKeyUp.bind(this, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER);
-    }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
     }
     handlePlacementChange(state, value) {
         if (state) {
             updatePlacement(value);
-            this.rerender();
         }
     }
     handleKeyUp(type, event) {
         if (type === OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER) {
             this.props.setOption(type, event.target.value);
         }
-        this.rerender();
     }
     render() {
         return (
