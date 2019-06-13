@@ -3,25 +3,25 @@ import {FormGroup, FormText, Input, Label, Row} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import OrderCard from "../partial/OrderCard";
-import {getOptionDescription, isValidOptionValue} from "../functions";
-import {setOption, setPlacement} from "../../../store/order/actions";
+import {getOptionDescription, isValidOptionValue, updatePlacement} from "../functions";
+import {setOption} from "../../../store/order/actions";
 import {OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER, OPTION_PLACEMENT_DOWNLOAD_LANDING} from "../constants";
 
 class OrderFourthStep extends React.Component {
     constructor(props) {
         super(props);
+        this.rerender = this.rerender.bind(this);
         this.handlePlacementChange = this.handlePlacementChange.bind(this);
         this.handleAccessesToServerKeyUp = this.handleKeyUp.bind(this, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER);
-        this.rerender = this.rerender.bind(this);
     }
-    componentWillMount() {
-        if (this.props.placement === null) {
-            this.props.setPlacement(OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER);
-        }
+    rerender() {
+        this.forceUpdate();
+        this.props.rerenderParent();
     }
     handlePlacementChange(state, value) {
         if (state) {
-            this.props.setPlacement(value);
+            updatePlacement(value);
+            this.rerender();
         }
     }
     handleKeyUp(type, event) {
@@ -30,17 +30,14 @@ class OrderFourthStep extends React.Component {
         }
         this.rerender();
     }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
-    }
     render() {
         return (
             <Row>
                 <OrderCard type="radio"
                            name="placement" title="Скачать архив"
                            description={getOptionDescription(this.props.options, OPTION_PLACEMENT_DOWNLOAD_LANDING)}
-                           colNonActive={4} colActive={8}
+                           colNonActive={4} colActive={8} colNoOne={6}
+                           noOneSelected={this.props.placement === null}
                            priceMin={0} priceMax={0}
                            active={this.props.placement === OPTION_PLACEMENT_DOWNLOAD_LANDING}
                            value={OPTION_PLACEMENT_DOWNLOAD_LANDING}
@@ -48,7 +45,8 @@ class OrderFourthStep extends React.Component {
                 <OrderCard type="radio"
                            name="placement" title="Загрузить на ваш сервер"
                            description={getOptionDescription(this.props.options, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER)}
-                           colNonActive={4} colActive={8}
+                           colNonActive={4} colActive={8} colNoOne={6}
+                           noOneSelected={this.props.placement === null}
                            priceMin={50} priceMax={50}
                            active={this.props.placement === OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER}
                            value={OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER}
@@ -86,8 +84,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    setOption,
-    setPlacement
+    setOption
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderFourthStep);

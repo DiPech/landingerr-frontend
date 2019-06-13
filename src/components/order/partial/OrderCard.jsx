@@ -34,6 +34,7 @@ export default class OrderCard extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.getCardColor = this.getCardColor.bind(this);
+        this.getColWidth = this.getColWidth.bind(this);
         this.showContent = this.showContent.bind(this);
     }
     handleChange(event) {
@@ -48,12 +49,18 @@ export default class OrderCard extends React.Component {
         }
         return "secondary";
     }
+    getColWidth() {
+        if (this.props.noOneSelected) {
+            return this.props.colNoOne;
+        }
+        return this.props.active ? this.props.colActive : this.props.colNonActive;
+    }
     showContent() {
-        return this.props.active && this.props.children
+        return this.props.active && this.props.children;
     }
     render() {
         return (
-            <SCol xs={12} sm={this.props.active ? this.props.colActive : this.props.colNonActive}>
+            <SCol xs={12} sm={this.getColWidth()}>
                 <Card body outline color={this.getCardColor()}>
                     <SCardTitle>
                         <SFormGroup check>

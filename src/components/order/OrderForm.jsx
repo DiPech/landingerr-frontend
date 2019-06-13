@@ -9,29 +9,53 @@ import {isValidOptionValue} from "./functions";
 import {
     OPTION_EDIT_ADD_CLIENT_COUNTERS,
     OPTION_EDIT_CLIENT_CHANGES,
-    OPTION_INTEGRATIONS_COLLECT_LEADS,
     OPTION_EDIT_EDIT_CONTACTS,
     OPTION_GROUP_INTEGRATIONS,
-    OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER,
+    OPTION_INTEGRATIONS_COLLECT_LEADS,
     OPTION_INTEGRATIONS_SEND_LEADS_TO_PP,
+    OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER,
     OPTION_SOURCE_FROM_ARCHIVE,
     OPTION_SOURCE_FROM_SHOP,
     OPTION_SOURCE_FROM_URL
 } from "./constants";
 import OrderSecondStep from "./steps/OrderSecondStep";
 import OrderThirdStep from "./steps/OrderThirdStep";
+import {Button, Spinner} from "reactstrap";
+import {FaHandPointRight} from "react-icons/fa";
+import {setStepShowStatus} from "../../store/order/actions";
+import {bindActionCreators} from "redux";
+import {fetchOrderOptions} from "../../api/order";
+import {fetchLandingIntegrationPartners, fetchLandingNotificationChannels} from "../../api/landing";
 
 class OrderForm extends React.Component {
     constructor(props) {
         super(props);
         this.rerender = this.rerender.bind(this);
+        this.isAllDataFetched = this.isAllDataFetched.bind(this);
         this.isFirstStepValid = this.isFirstStepValid.bind(this);
         this.isSecondStepValid = this.isSecondStepValid.bind(this);
         this.isThirdStepValid = this.isThirdStepValid.bind(this);
         this.isFourthStepValid = this.isFourthStepValid.bind(this);
+        this.isStepVisible = this.isStepVisible.bind(this);
+        this.showStep = this.showStep.bind(this);
+    }
+    componentWillMount() {
+        if (this.props.options === null) {
+            this.props.fetchOrderOptions();
+        }
+        if (this.props.channels === null) {
+            this.props.fetchLandingNotificationChannels();
+        }
+        if (this.props.partners === null) {
+            this.props.fetchLandingIntegrationPartners();
+        }
     }
     rerender() {
         this.forceUpdate();
+    }
+    isAllDataFetched() {
+        return !this.props.isOptionsLoading && !this.props.isChannelsLoading && !this.props.isPartnersLoading &&
+            this.props.options !== null && this.props.channels !== null && this.props.partners !== null;
     }
     isFirstStepValid() {
         if (this.props.source === OPTION_SOURCE_FROM_URL) {
@@ -43,7 +67,7 @@ class OrderForm extends React.Component {
         if (this.props.source === OPTION_SOURCE_FROM_ARCHIVE) {
             return this.props.isArchiveAttached;
         }
-        return true;
+        return false;
     }
     isSecondStepValid() {
         if (!hasProps(this.props.selectedOptions)) {
@@ -81,10 +105,20 @@ class OrderForm extends React.Component {
         return true;
     }
     isFourthStepValid() {
+        if (this.props.placement === null) {
+            return false;
+        }
         if (this.props.placement === OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER) {
             return isValidOptionValue(this.props.selectedOptions, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER);
         }
         return true;
+    }
+    isStepVisible(number) {
+        return this.props.visibleSteps.hasOwnProperty(number) && this.props.visibleSteps[number] === true;
+    }
+    showStep(number) {
+        this.props.setStepShowStatus(number, true);
+        this.rerender();
     }
     render() {
         let landingId = this.props.match.params.hasOwnProperty("landingId") ?
@@ -92,28 +126,79 @@ class OrderForm extends React.Component {
         return (
             <Fragment>
                 <h2>Создание нового заказа</h2>
-                <h4>Шаг 1 - Откуда брать лендинг</h4>
-                <OrderFirstStep urlParameterLandingId={landingId}/>
-                {this.isFirstStepValid() && (
+                {!this.isAllDataFetched() ? (
+                    <div>
+                        Загрузка данных <Spinner size="sm" color="secondary"/>
+                    </div>
+                ) : (
                     <Fragment>
-                        <hr/>
-                        <h4>Шаг 2 - Обработка лендинга</h4>
-                        <OrderSecondStep rerenderParent={this.rerender}/>
-                        {this.isSecondStepValid() && (
+                        <h4>Шаг 1 - Откуда брать лендинг</h4>
+                        <OrderFirstStep rerenderParent={this.rerender} urlParameterLandingId={landingId}/>
+                        {this.isFirstStepValid() && (
                             <Fragment>
-                                <hr/>
-                                <h4>Шаг 3 - Выбор интеграций</h4>
-                                <OrderThirdStep rerenderParent={this.rerender}/>
-                                {this.isThirdStepValid() && (
+                                {!this.isStepVisible(2) ? (
+                                    <Button color="primary" outline size="sm" className="mt-2"
+                                            onClick={() => this.showStep(2)}>
+                                        <FaHandPointRight/> Перейти ко второму шагу
+                                    </Button>
+                                ) : (
                                     <Fragment>
                                         <hr/>
-                                        <h4>Шаг 4 - Где разместить лендинг</h4>
-                                        <OrderFourthStep rerenderParent={this.rerender}/>
-                                        {this.isFourthStepValid() && (
+                                        <h4>Шаг 2 - Обработка лендинга</h4>
+                                        <OrderSecondStep rerenderParent={this.rerender}/>
+                                        {this.isSecondStepValid() && (
                                             <Fragment>
-                                                <hr/>
-                                                <h4>Шаг 5 - Завершение</h4>
-                                                <OrderFifthStep/>
+                                                {!this.isStepVisible(3) ? (
+                                                    <Button color="primary" outline size="sm" className="mt-2"
+                                                            onClick={() => this.showStep(3)}>
+                                                        <FaHandPointRight/> Перейти к третьему шагу
+                                                    </Button>
+                                                ) : (
+                                                    <Fragment>
+                                                        <hr/>
+                                                        <h4>Шаг 3 - Выбор интеграций</h4>
+                                                        <OrderThirdStep rerenderParent={this.rerender}/>
+                                                        {this.isThirdStepValid() && (
+                                                            <Fragment>
+                                                                {!this.isStepVisible(4) ? (
+                                                                    <Button color="primary" outline size="sm"
+                                                                            className="mt-2"
+                                                                            onClick={() => this.showStep(4)}>
+                                                                        <FaHandPointRight/> Перейти к четвёртому шагу
+                                                                    </Button>
+                                                                ) : (
+                                                                    <Fragment>
+                                                                        <hr/>
+                                                                        <h4>Шаг 4 - Где разместить лендинг</h4>
+                                                                        <OrderFourthStep
+                                                                            rerenderParent={this.rerender}/>
+                                                                        {this.isFourthStepValid() && (
+                                                                            <Fragment>
+                                                                                {!this.isStepVisible(5) ? (
+                                                                                    <Button color="primary" outline
+                                                                                            size="sm"
+                                                                                            className="mt-2"
+                                                                                            onClick={() => this.showStep(5)}>
+                                                                                        <FaHandPointRight/> Перейти к
+                                                                                        пятому
+                                                                                        шагу
+                                                                                    </Button>
+                                                                                ) : (
+                                                                                    <Fragment>
+                                                                                        <hr/>
+                                                                                        <h4>Шаг 5 - Завершение</h4>
+                                                                                        <OrderFifthStep
+                                                                                            rerenderParent={this.rerender}/>
+                                                                                    </Fragment>
+                                                                                )}
+                                                                            </Fragment>
+                                                                        )}
+                                                                    </Fragment>
+                                                                )}
+                                                            </Fragment>
+                                                        )}
+                                                    </Fragment>
+                                                )}
                                             </Fragment>
                                         )}
                                     </Fragment>
@@ -129,6 +214,13 @@ class OrderForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        options: state.order.options,
+        isOptionsLoading: state.order.isOptionsLoading,
+        channels: state.order.channels,
+        isChannelsLoading: state.order.isChannelsLoading,
+        partners: state.order.partners,
+        isPartnersLoading: state.order.isPartnersLoading,
+        visibleSteps: state.order.visibleSteps,
         source: state.order.source,
         placement: state.order.placement,
         sourceUrl: state.order.sourceUrl,
@@ -136,10 +228,16 @@ const mapStateToProps = (state) => {
         landing: state.order.landing,
         selectedOptions: state.order.selectedOptions,
         isArchiveAttached: state.order.isArchiveAttached,
-        options: state.order.options,
         selectedChannels: state.order.selectedChannels,
         selectedPartners: state.order.selectedPartners,
     };
 };
 
-export default connect(mapStateToProps)(OrderForm);
+const mapDispatchToProps = dispatch => bindActionCreators({
+    fetchOrderOptions,
+    fetchLandingNotificationChannels,
+    fetchLandingIntegrationPartners,
+    setStepShowStatus
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderForm);

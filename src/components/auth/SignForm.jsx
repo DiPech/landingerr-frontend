@@ -5,29 +5,30 @@ import {setEmailText, setPasswordText, setRepeatPasswordText, setToken} from "..
 import {withToastManager} from "react-toast-notifications";
 import {validateEmail} from "../../util/string";
 import {Redirect} from "react-router-dom";
-import {SIGN_FORM_REG} from "./constants";
+import {
+    SIGN_FORM_FIELD_EMAIL,
+    SIGN_FORM_FIELD_PASSWORD,
+    SIGN_FORM_FIELD_REPEAT_PASSWORD,
+    SIGN_FORM_REG
+} from "./constants";
 import {FaSignInAlt, FaUserPlus} from "react-icons/fa";
-
-const FIELD_EMAIL = "email";
-const FIELD_PASSWORD = "password";
-const FIELD_REPEAT_PASSWORD = "repeat_password";
 
 class SignForm extends React.Component {
     constructor(props) {
         super(props);
-        this.handleEmailChange = this.handleChange.bind(this, FIELD_EMAIL);
-        this.handlePasswordChange = this.handleChange.bind(this, FIELD_PASSWORD);
-        this.handleRepeatPasswordChange = this.handleChange.bind(this, FIELD_REPEAT_PASSWORD);
+        this.handleEmailChange = this.handleChange.bind(this, SIGN_FORM_FIELD_EMAIL);
+        this.handlePasswordChange = this.handleChange.bind(this, SIGN_FORM_FIELD_PASSWORD);
+        this.handleRepeatPasswordChange = this.handleChange.bind(this, SIGN_FORM_FIELD_REPEAT_PASSWORD);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isReg = this.isReg.bind(this);
         this.ensureInputValid = this.ensureInputValid.bind(this);
     }
     handleChange(type, event) {
-        if (type === FIELD_EMAIL) {
+        if (type === SIGN_FORM_FIELD_EMAIL) {
             this.props.setEmailText(event.target.value);
-        } else if (type === FIELD_PASSWORD) {
+        } else if (type === SIGN_FORM_FIELD_PASSWORD) {
             this.props.setPasswordText(event.target.value);
-        } else if (type === FIELD_REPEAT_PASSWORD) {
+        } else if (type === SIGN_FORM_FIELD_REPEAT_PASSWORD) {
             this.props.setRepeatPasswordText(event.target.value);
         }
     }

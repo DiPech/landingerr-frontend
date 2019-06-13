@@ -23,10 +23,11 @@ import {
     ORDER_REMOVE_OPTION,
     ORDER_SET_INTEGRATION_WITH_PARTNER_PROGRAM,
     ORDER_SET_NOTIFICATION_CHANNEL,
-    ORDER_SET_OPTION
+    ORDER_SET_OPTION, ORDER_SET_ORDER_STEP_SHOW_STATUS
 } from "./actions";
 
 const defaultState = {
+    visibleSteps: {},
     source: null,
     sourceUrl: "",
     landingId: null,
@@ -203,6 +204,21 @@ export const orderReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 public: action.payload
+            };
+        case ORDER_SET_ORDER_STEP_SHOW_STATUS:
+            let stepNumber = parseInt(action.payload.stepNumber);
+            let stepStatus = action.payload.status;
+            let vsNew = state.visibleSteps;
+            vsNew[stepNumber] = stepStatus;
+            if (stepStatus === false) {
+                let nextStep = stepNumber + 1;
+                while (vsNew.hasOwnProperty(nextStep)) {
+                    delete vsNew[nextStep++];
+                }
+            }
+            return {
+                ...state,
+                visibleSteps: vsNew
             };
         default:
             return state;

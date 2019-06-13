@@ -11,29 +11,25 @@ import {
     setOption
 } from "../../../store/order/actions";
 import Row from "reactstrap/es/Row";
-import {Spinner} from "reactstrap";
-import Col from "reactstrap/es/Col";
-import {fetchLandingIntegrationPartners, fetchLandingNotificationChannels} from "../../../api/landing";
 import {hasProps} from "../../../util/object";
-import {OPTION_INTEGRATIONS_COLLECT_LEADS, OPTION_GROUP_INTEGRATIONS, OPTION_INTEGRATIONS_SEND_LEADS_TO_PP} from "../constants";
+import {
+    OPTION_GROUP_INTEGRATIONS,
+    OPTION_INTEGRATIONS_COLLECT_LEADS,
+    OPTION_INTEGRATIONS_SEND_LEADS_TO_PP
+} from "../constants";
 
 class OrderThirdStep extends React.Component {
     constructor(props) {
         super(props);
+        this.rerender = this.rerender.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleChannelChange = this.handleChannelChange.bind(this);
         this.handlePartnerChange = this.handlePartnerChange.bind(this);
-        this.rerender = this.rerender.bind(this);
         this.isOptionSelected = this.isOptionSelected.bind(this);
-        this.isLoadingNecessaryData = this.isLoadingNecessaryData.bind(this);
     }
-    componentWillMount() {
-        if (this.props.channels === null) {
-            this.props.fetchLandingNotificationChannels();
-        }
-        if (this.props.partners === null) {
-            this.props.fetchLandingIntegrationPartners();
-        }
+    rerender() {
+        this.forceUpdate();
+        this.props.rerenderParent();
     }
     handleOptionChange(state, keyword) {
         if (state) {
@@ -59,10 +55,6 @@ class OrderThirdStep extends React.Component {
         }
         this.rerender();
     }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
-    }
     isOptionSelected(keyword) {
         return this.props.selectedOptions.hasOwnProperty(keyword);
     }
@@ -72,95 +64,83 @@ class OrderThirdStep extends React.Component {
     isPartnerSelected(keyword) {
         return this.props.selectedPartners.hasOwnProperty(keyword);
     }
-    isLoadingNecessaryData() {
-        return this.props.channels === null ||
-            this.props.isChannelsLoading ||
-            this.props.partners === null ||
-            this.props.isPartnersLoading;
-    }
     render() {
         return (
             <Row>
-                {this.isLoadingNecessaryData() ? (
-                    <Col>
-                        Загрузка данных <Spinner size="sm" color="secondary"/>
-                    </Col>
-                ) : (
-                    <Fragment>
-                        {this.props.options.map((option, i) => {
-                            if (option.group !== OPTION_GROUP_INTEGRATIONS) {
-                                return (" ");
-                            }
-                            let selectedValues = {};
-                            if (option.keyword === OPTION_INTEGRATIONS_COLLECT_LEADS) {
-                                selectedValues = this.props.selectedChannels;
-                            } else if (option.keyword === OPTION_INTEGRATIONS_SEND_LEADS_TO_PP) {
-                                selectedValues = this.props.selectedPartners;
-                            }
-                            return (
-                                <OrderCard key={i} type="checkbox"
-                                           name="option" title={option.name} description={option.description}
-                                           colNonActive={12} colActive={12}
-                                           priceMin={option.priceMin} priceMax={option.priceMax}
-                                           active={this.isOptionSelected(option.keyword)}
-                                           value={option.keyword}
-                                           error={!hasProps(selectedValues)}
-                                           onChange={this.handleOptionChange}>
-                                    {(function () {
-                                        switch (option.keyword) {
-                                            case OPTION_INTEGRATIONS_COLLECT_LEADS:
-                                                return (
-                                                    <Fragment>
-                                                        <Row>
-                                                            {this.props.channels.map((channel, j) => {
-                                                                return (
-                                                                    <OrderCard key={"channel-" + i + "-" + j}
-                                                                               type="checkbox"
-                                                                               name="channel" title={channel.name}
-                                                                               colNonActive={4} colActive={4}
-                                                                               withoutPrice
-                                                                               titleHelp="
+                <Fragment>
+                    {this.props.options.map((option, i) => {
+                        if (option.group !== OPTION_GROUP_INTEGRATIONS) {
+                            return (" ");
+                        }
+                        let selectedValues = {};
+                        if (option.keyword === OPTION_INTEGRATIONS_COLLECT_LEADS) {
+                            selectedValues = this.props.selectedChannels;
+                        } else if (option.keyword === OPTION_INTEGRATIONS_SEND_LEADS_TO_PP) {
+                            selectedValues = this.props.selectedPartners;
+                        }
+                        return (
+                            <OrderCard key={i} type="checkbox"
+                                       name="option" title={option.name} description={option.description}
+                                       colNonActive={12} colActive={12}
+                                       priceMin={option.priceMin} priceMax={option.priceMax}
+                                       active={this.isOptionSelected(option.keyword)}
+                                       value={option.keyword}
+                                       error={!hasProps(selectedValues)}
+                                       onChange={this.handleOptionChange}>
+                                {(function () {
+                                    switch (option.keyword) {
+                                        case OPTION_INTEGRATIONS_COLLECT_LEADS:
+                                            return (
+                                                <Fragment>
+                                                    <Row>
+                                                        {this.props.channels.map((channel, j) => {
+                                                            return (
+                                                                <OrderCard key={"channel-" + i + "-" + j}
+                                                                           type="checkbox"
+                                                                           name="channel" title={channel.name}
+                                                                           colNonActive={4} colActive={4}
+                                                                           withoutPrice
+                                                                           titleHelp="
                                                                                Настройку уведомлений можно будет
                                                                                сделать позже в личном кабинете"
-                                                                               active={this.isChannelSelected(channel.keyword)}
-                                                                               value={channel.keyword}
-                                                                               onChange={this.handleChannelChange}/>
-                                                                )
-                                                            })}
-                                                        </Row>
-                                                    </Fragment>
-                                                );
-                                            case OPTION_INTEGRATIONS_SEND_LEADS_TO_PP:
-                                                return (
-                                                    <Fragment>
-                                                        <Row>
-                                                            {this.props.partners.map((partner, j) => {
-                                                                return (
-                                                                    <OrderCard key={"partner-" + i + "-" + j}
-                                                                               type="checkbox"
-                                                                               name="partner" title={partner.name}
-                                                                               colNonActive={3} colActive={3}
-                                                                               withoutPrice
-                                                                               titleHelp="
+                                                                           active={this.isChannelSelected(channel.keyword)}
+                                                                           value={channel.keyword}
+                                                                           onChange={this.handleChannelChange}/>
+                                                            )
+                                                        })}
+                                                    </Row>
+                                                </Fragment>
+                                            );
+                                        case OPTION_INTEGRATIONS_SEND_LEADS_TO_PP:
+                                            return (
+                                                <Fragment>
+                                                    <Row>
+                                                        {this.props.partners.map((partner, j) => {
+                                                            return (
+                                                                <OrderCard key={"partner-" + i + "-" + j}
+                                                                           type="checkbox"
+                                                                           name="partner" title={partner.name}
+                                                                           colNonActive={3} colActive={3}
+                                                                           withoutPrice
+                                                                           titleHelp="
                                                                                Настройку уведомлений можно будет
                                                                                сделать позже в личном кабинете"
-                                                                               active={this.isPartnerSelected(partner.keyword)}
-                                                                               value={partner.keyword}
-                                                                               onChange={this.handlePartnerChange}/>
-                                                                )
-                                                            })}
-                                                        </Row>
-                                                    </Fragment>
-                                                );
-                                            default:
-                                                return null;
-                                        }
-                                    }.bind(this))()}
-                                </OrderCard>
-                            )
-                        })}
-                    </Fragment>
-                )}
+                                                                           active={this.isPartnerSelected(partner.keyword)}
+                                                                           value={partner.keyword}
+                                                                           onChange={this.handlePartnerChange}/>
+                                                            )
+                                                        })}
+                                                    </Row>
+                                                </Fragment>
+                                            );
+                                        default:
+                                            return null;
+                                    }
+                                }.bind(this))()}
+                            </OrderCard>
+                        )
+                    })}
+                </Fragment>
             </Row>
         );
     }
@@ -174,8 +154,6 @@ const mapStateToProps = (state) => {
         selectedChannels: state.order.selectedChannels,
         partners: state.order.partners,
         selectedPartners: state.order.selectedPartners,
-        isChannelsLoading: state.order.isChannelsLoading,
-        isPartnersLoading: state.order.isPartnersLoading,
     };
 };
 
@@ -186,8 +164,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     removeNotificationChannel,
     setIntegrationWithPp,
     removeIntegrationWithPp,
-    fetchLandingNotificationChannels,
-    fetchLandingIntegrationPartners,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderThirdStep);

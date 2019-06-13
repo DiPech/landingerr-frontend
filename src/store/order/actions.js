@@ -24,6 +24,7 @@ export const ORDER_CHANGE_PLACEMENT = 'ORDER_CHANGE_PLACEMENT';
 export const ORDER_CHANGE_COMMENT = 'ORDER_CHANGE_COMMENT';
 export const ORDER_CHANGE_COMMENT_IMAGES = 'ORDER_CHANGE_COMMENT_IMAGES';
 export const ORDER_CHANGE_PUBLIC = 'ORDER_CHANGE_PUBLIC';
+export const ORDER_SET_ORDER_STEP_SHOW_STATUS = 'ORDER_SET_ORDER_STEP_SHOW_STATUS';
 
 export const fetchLandingPending = (id) => ({
     type: ORDER_FETCH_LANDING_PENDING,
@@ -124,4 +125,8 @@ export const setCommentImages = (imageIds) => ({
 export const setPublic = (isPublic) => ({
     type: ORDER_CHANGE_PUBLIC,
     payload: isPublic
+});
+export const setStepShowStatus = (stepNumber, status) => ({
+    type: ORDER_SET_ORDER_STEP_SHOW_STATUS,
+    payload: {stepNumber, status}
 });

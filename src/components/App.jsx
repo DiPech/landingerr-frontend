@@ -22,7 +22,7 @@ const composedEnhancers = compose(
     middlewareEnhancer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
-const store = createStore(rootReducer, composedEnhancers);
+export const store = createStore(rootReducer, composedEnhancers);
 
 export default class App extends React.Component {
     render() {
