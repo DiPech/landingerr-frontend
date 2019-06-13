@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 export default class OrderList extends React.Component {
     render() {
         return (
-            <div>
+            <Fragment>
                 <h2>Ваши заказы</h2>
-            </div>
+                <p>Рыба в веб дизайне.</p>
+            </Fragment>
         );
     }
 }

@@ -1,21 +1,25 @@
 import React, {Fragment} from 'react';
 import {validateUrl} from "../../util/string";
 import {connect} from "react-redux";
-import OrderFirstStep, {SOURCE_ARCHIVE, SOURCE_SHOP, SOURCE_URL} from "./steps/OrderFirstStep";
-import OrderSecondStep, {
-    OPTION_ADD_CLIENT_COUNTERS,
-    OPTION_CLIENT_CHANGES,
-    OPTION_EDIT_CONTACTS
-} from "./steps/OrderSecondStep";
-import OrderThirdStep, {
-    OPTION_COLLECT_LEADS,
-    OPTION_GROUP_INTEGRATIONS,
-    OPTION_SEND_LEADS_TO_PP
-} from "./steps/OrderThirdStep";
+import OrderFirstStep from "./steps/OrderFirstStep";
 import OrderFifthStep from "./steps/OrderFifthStep";
-import OrderFourthStep, {OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER} from "./steps/OrderFourthStep";
+import OrderFourthStep from "./steps/OrderFourthStep";
 import {hasProps} from "../../util/object";
 import {isValidOptionValue} from "./functions";
+import {
+    OPTION_ADD_CLIENT_COUNTERS,
+    OPTION_CLIENT_CHANGES,
+    OPTION_COLLECT_LEADS,
+    OPTION_EDIT_CONTACTS,
+    OPTION_GROUP_INTEGRATIONS,
+    OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER,
+    OPTION_SEND_LEADS_TO_PP,
+    OPTION_SOURCE_FROM_ARCHIVE,
+    OPTION_SOURCE_FROM_SHOP,
+    OPTION_SOURCE_FROM_URL
+} from "./constants";
+import OrderSecondStep from "./steps/OrderSecondStep";
+import OrderThirdStep from "./steps/OrderThirdStep";
 
 class OrderForm extends React.Component {
     constructor(props) {
@@ -30,13 +34,13 @@ class OrderForm extends React.Component {
         this.forceUpdate();
     }
     isFirstStepValid() {
-        if (this.props.source === SOURCE_URL) {
+        if (this.props.source === OPTION_SOURCE_FROM_URL) {
             return validateUrl(this.props.sourceUrl)
         }
-        if (this.props.source === SOURCE_SHOP) {
+        if (this.props.source === OPTION_SOURCE_FROM_SHOP) {
             return this.props.landing !== null;
         }
-        if (this.props.source === SOURCE_ARCHIVE) {
+        if (this.props.source === OPTION_SOURCE_FROM_ARCHIVE) {
             return this.props.isArchiveAttached;
         }
         return true;
@@ -86,10 +90,10 @@ class OrderForm extends React.Component {
         let landingId = this.props.match.params.hasOwnProperty("landingId") ?
             this.props.match.params.landingId : null;
         return (
-            <div>
+            <Fragment>
                 <h2>Создание нового заказа</h2>
                 <h4>Шаг 1 - Откуда брать лендинг</h4>
-                <OrderFirstStep urlParameterlandingId={landingId}/>
+                <OrderFirstStep urlParameterLandingId={landingId}/>
                 {this.isFirstStepValid() && (
                     <Fragment>
                         <hr/>
@@ -118,7 +122,7 @@ class OrderForm extends React.Component {
                         )}
                     </Fragment>
                 )}
-            </div>
+            </Fragment>
         );
     }
 }

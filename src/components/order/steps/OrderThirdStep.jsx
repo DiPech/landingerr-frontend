@@ -15,10 +15,7 @@ import {Spinner} from "reactstrap";
 import Col from "reactstrap/es/Col";
 import {fetchLandingIntegrationPartners, fetchLandingNotificationChannels} from "../../../api/landing";
 import {hasProps} from "../../../util/object";
-
-export const OPTION_GROUP_INTEGRATIONS = "integrations";
-export const OPTION_COLLECT_LEADS = "collect_leads";
-export const OPTION_SEND_LEADS_TO_PP = "send_leads_to_pp";
+import {OPTION_COLLECT_LEADS, OPTION_GROUP_INTEGRATIONS, OPTION_SEND_LEADS_TO_PP} from "../constants";
 
 class OrderThirdStep extends React.Component {
     constructor(props) {
@@ -95,15 +92,10 @@ class OrderThirdStep extends React.Component {
                                 return (" ");
                             }
                             let selectedValues = {};
-                            switch (option.keyword) {
-                                case OPTION_COLLECT_LEADS:
-                                    selectedValues = this.props.selectedChannels;
-                                    break;
-                                case OPTION_SEND_LEADS_TO_PP:
-                                    selectedValues = this.props.selectedPartners;
-                                    break;
-                                default:
-                                    break;
+                            if (option.keyword === OPTION_COLLECT_LEADS) {
+                                selectedValues = this.props.selectedChannels;
+                            } else if (option.keyword === OPTION_SEND_LEADS_TO_PP) {
+                                selectedValues = this.props.selectedPartners;
                             }
                             return (
                                 <OrderCard key={i} type="checkbox"

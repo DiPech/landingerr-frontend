@@ -7,11 +7,7 @@ import {fetchOrderOptions} from "../../../api/order";
 import {removeOption, setOption} from "../../../store/order/actions";
 import Col from "reactstrap/es/Col";
 import {isValidOptionValue} from "../functions";
-
-const OPTION_GROUP_EDIT = "edit";
-export const OPTION_EDIT_CONTACTS = "edit_contacts";
-export const OPTION_ADD_CLIENT_COUNTERS = "add_client_counters";
-export const OPTION_CLIENT_CHANGES = "client_changes";
+import {OPTION_ADD_CLIENT_COUNTERS, OPTION_CLIENT_CHANGES, OPTION_EDIT_CONTACTS, OPTION_GROUP_EDIT} from "../constants";
 
 class OrderSecondStep extends React.Component {
     constructor(props) {

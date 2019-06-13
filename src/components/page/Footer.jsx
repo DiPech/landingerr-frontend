@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Col, Container, Row} from "reactstrap";
+import {Col, Row} from "reactstrap";
 import {FaTelegram, FaVk} from "react-icons/fa";
 import {Link} from "react-router-dom";
 
@@ -19,30 +19,28 @@ const SVAMSpan = styled.span`
 export default class Footer extends React.Component {
     render() {
         return (
-            <Container>
-                <SFooter className="bg-light rounded mt-3 mb-3">
-                    <Row>
-                        <Col xs="6">
-                            <SVAMSpan className="text-muted">
-                                <Link to="/" className="text-secondary">
-                                    Landingerr
-                                </Link>
-                                &nbsp;| {new Date().getUTCFullYear()}
-                            </SVAMSpan>
-                        </Col>
-                        <Col xs="6" className="text-right">
-                            <SFooterSocialBtn href="https://vk.com/dmitry.pechkovsky" target="_blank"
-                                              className="btn btn-outline-secondary mr-1">
-                                <FaVk/>
-                            </SFooterSocialBtn>
-                            <SFooterSocialBtn href="https://t.me/dipech" target="_blank"
-                                              className="btn btn-outline-secondary">
-                                <FaTelegram/>
-                            </SFooterSocialBtn>
-                        </Col>
-                    </Row>
-                </SFooter>
-            </Container>
+            <SFooter className="bg-light rounded mt-3 mb-3">
+                <Row>
+                    <Col xs="6">
+                        <SVAMSpan className="text-muted">
+                            <Link to="/" className="text-secondary">
+                                Landingerr
+                            </Link>
+                            &nbsp;| {new Date().getUTCFullYear()}
+                        </SVAMSpan>
+                    </Col>
+                    <Col xs="6" className="text-right">
+                        <SFooterSocialBtn href="https://vk.com/dmitry.pechkovsky" target="_blank"
+                                          className="btn btn-outline-secondary mr-1">
+                            <FaVk/>
+                        </SFooterSocialBtn>
+                        <SFooterSocialBtn href="https://t.me/dipech" target="_blank"
+                                          className="btn btn-outline-secondary">
+                            <FaTelegram/>
+                        </SFooterSocialBtn>
+                    </Col>
+                </Row>
+            </SFooter>
         );
     }
 }

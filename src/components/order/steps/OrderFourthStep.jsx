@@ -5,9 +5,7 @@ import {bindActionCreators} from "redux";
 import OrderCard from "../partial/OrderCard";
 import {getOptionDescription, isValidOptionValue} from "../functions";
 import {setOption, setPlacement} from "../../../store/order/actions";
-
-export const OPTION_PLACEMENT_DOWNLOAD_LANDING = "download_landing";
-export const OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER = "deploy_to_client_server";
+import {OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER, OPTION_PLACEMENT_DOWNLOAD_LANDING} from "../constants";
 
 class OrderFourthStep extends React.Component {
     constructor(props) {
@@ -26,12 +24,8 @@ class OrderFourthStep extends React.Component {
         }
     }
     handleKeyUp(type, event) {
-        switch (type) {
-            case OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER:
-                this.props.setOption(type, event.target.value);
-                break;
-            default:
-                break;
+        if (type === OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER) {
+            this.props.setOption(type, event.target.value);
         }
         this.rerender();
     }

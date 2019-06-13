@@ -50,20 +50,18 @@ class OrderCommentFormImage extends React.Component {
     }
     render() {
         return (
-            <Fragment>
-                <SDivWrapper>
-                    <SImg src={this.props.src}/>
-                    {this.props.loading ? (
-                        <SDivSpinner><Spinner/></SDivSpinner>
-                    ) : (
-                        <Fragment>
-                            {this.props.removable && (
-                                <SDivBtnRemove onClick={this.handleRemove}/>
-                            )}
-                        </Fragment>
-                    )}
-                </SDivWrapper>
-            </Fragment>
+            <SDivWrapper>
+                <SImg src={this.props.src}/>
+                {this.props.loading ? (
+                    <SDivSpinner><Spinner/></SDivSpinner>
+                ) : (
+                    <Fragment>
+                        {this.props.removable && (
+                            <SDivBtnRemove onClick={this.handleRemove}/>
+                        )}
+                    </Fragment>
+                )}
+            </SDivWrapper>
         );
     }
 }

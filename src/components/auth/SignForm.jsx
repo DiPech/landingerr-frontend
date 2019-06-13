@@ -1,13 +1,12 @@
 import React, {Fragment} from "react";
 import {Button, Col, Row} from "reactstrap";
 import {connect} from "react-redux";
-import {setToken, setEmailText, setPasswordText, setRepeatPasswordText} from "../../store/auth/actions";
+import {setEmailText, setPasswordText, setRepeatPasswordText, setToken} from "../../store/auth/actions";
 import {withToastManager} from "react-toast-notifications";
 import {validateEmail} from "../../util/string";
 import {Redirect} from "react-router-dom";
-
-export const SIGN_FORM_AUTH = "SIGN_FORM_AUTH";
-export const SIGN_FORM_REG = "SIGN_FORM_REG";
+import {SIGN_FORM_REG} from "./constants";
+import {FaSignInAlt, FaUserPlus} from "react-icons/fa";
 
 class SignForm extends React.Component {
     constructor(props) {
@@ -71,41 +70,47 @@ class SignForm extends React.Component {
                 />
             ) : (
                 <Fragment>
-                    <div>
-                        <h2>{this.isReg() ? "Регистрация" : "Вход"}</h2>
-                        <form>
-                            <Row>
-                                <Col sm="6" md="4">
+                    <h2>{this.isReg() ? "Регистрация" : "Вход"}</h2>
+                    <form>
+                        <Row>
+                            <Col sm="6" md="4">
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input type="email" className="form-control"
+                                           placeholder="ivan.ivanov@gmail.com" required
+                                           value={this.props.email}
+                                           onChange={this.onEmailChange}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Пароль</label>
+                                    <input type="password" className="form-control"
+                                           placeholder="**************" required
+                                           value={this.props.password}
+                                           onChange={this.onPasswordChange}/>
+                                </div>
+                                {this.isReg() && (
                                     <div className="form-group">
-                                        <label>Email</label>
-                                        <input type="email" className="form-control"
-                                               placeholder="ivan.ivanov@gmail.com" required
-                                               value={this.props.email}
-                                               onChange={this.onEmailChange}/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Пароль</label>
+                                        <label>Повторите пароль</label>
                                         <input type="password" className="form-control"
                                                placeholder="**************" required
-                                               value={this.props.password}
-                                               onChange={this.onPasswordChange}/>
+                                               value={this.props.repeatPassword}
+                                               onChange={this.onRepeatPasswordChange}/>
                                     </div>
-                                    {this.isReg() && (
-                                        <div className="form-group">
-                                            <label>Повторите пароль</label>
-                                            <input type="password" className="form-control"
-                                                   placeholder="**************" required
-                                                   value={this.props.repeatPassword}
-                                                   onChange={this.onRepeatPasswordChange}/>
-                                        </div>
+                                )}
+                                <Button outline color="primary" onClick={this.onSubmit}>
+                                    {this.isReg() ? (
+                                        <Fragment>
+                                            <FaUserPlus/> Зарегистрироваться
+                                        </Fragment>
+                                    ) : (
+                                        <Fragment>
+                                            <FaSignInAlt/> Войти
+                                        </Fragment>
                                     )}
-                                    <Button outline color="primary" onClick={this.onSubmit}>
-                                        {this.isReg() ? "Зарегистрироваться" : "Войти"}
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </form>
-                    </div>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </form>
                 </Fragment>
             )
         );

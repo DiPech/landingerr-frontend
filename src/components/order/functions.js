@@ -1,5 +1,9 @@
-import {OPTION_ADD_CLIENT_COUNTERS, OPTION_CLIENT_CHANGES, OPTION_EDIT_CONTACTS} from "./steps/OrderSecondStep";
-import {OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER} from "./steps/OrderFourthStep";
+import {
+    OPTION_ADD_CLIENT_COUNTERS,
+    OPTION_CLIENT_CHANGES,
+    OPTION_EDIT_CONTACTS,
+    OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER
+} from "./constants";
 
 export function getOptionDescription(options, keyword) {
     for (let i in options) {

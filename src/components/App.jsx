@@ -1,8 +1,8 @@
 import React from "react";
-import {createStore, compose, applyMiddleware} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import rootReducer from "../store/reducers";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Auth from "./auth/Auth";
 import Reg from "./auth/Reg";
 import Home from "./Home";
@@ -15,6 +15,7 @@ import Cabinet from "./Cabinet";
 import AuthRequiredRoute from "./other/AuthRequiredRoute";
 import thunkMiddleware from "redux-thunk"
 import OrderForm from "./order/OrderForm";
+import {Container} from "reactstrap";
 
 const middlewareEnhancer = applyMiddleware(thunkMiddleware);
 const composedEnhancers = compose(
@@ -29,8 +30,8 @@ export default class App extends React.Component {
             <Provider store={store}>
                 <ToastProvider autoDismiss={true} autoDismissTimeout={5000} pauseOnHover={true}>
                     <Router>
-                        <Header/>
-                        <div className="container">
+                        <Container>
+                            <Header/>
                             <Switch>
                                 <Route path="/" exact component={Home}/>
                                 <AuthRequiredRoute path="/orders" exact component={OrderList}/>
@@ -40,8 +41,8 @@ export default class App extends React.Component {
                                 <Route path="/reg" component={Reg}/>
                                 <AuthRequiredRoute path="/cabinet" component={Cabinet}/>
                             </Switch>
-                        </div>
-                        <Footer/>
+                            <Footer/>
+                        </Container>
                     </Router>
                 </ToastProvider>
             </Provider>

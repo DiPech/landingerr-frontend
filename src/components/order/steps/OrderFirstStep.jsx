@@ -9,18 +9,12 @@ import {fetchLanding} from "../../../api/landing";
 import {deselectLanding, setArchiveAttached, setSource, setSourceUrl} from "../../../store/order/actions";
 import {getOptionDescription} from "../functions";
 import {validateUrl} from "../../../util/string";
-
-export const SOURCE_URL = "url";
-export const SOURCE_SHOP = "shop";
-export const SOURCE_ARCHIVE = "archive";
-export const OPTION_SOURCE_FROM_URL = "from_url";
-export const OPTION_SOURCE_FROM_SHOP = "from_shop";
-export const OPTION_SOURCE_FROM_ARCHIVE = "from_archive";
+import {OPTION_SOURCE_FROM_ARCHIVE, OPTION_SOURCE_FROM_SHOP, OPTION_SOURCE_FROM_URL} from "../constants";
 
 class OrderFirstStep extends React.Component {
     constructor(props) {
         super(props);
-        this.handleSourceUrlKeyUp = this.handleKeyUp.bind(this, SOURCE_URL);
+        this.handleSourceUrlKeyUp = this.handleKeyUp.bind(this, OPTION_SOURCE_FROM_URL);
         this.updateSource = this.updateSource.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.fetchLandingInfo = this.fetchLandingInfo.bind(this);
@@ -29,26 +23,26 @@ class OrderFirstStep extends React.Component {
         this.fetchLandingInfo();
     }
     fetchLandingInfo() {
-        let landingId = this.props.urlParameterlandingId;
+        let landingId = this.props.urlParameterLandingId;
         if (landingId) {
             if (this.props.landingId !== null && landingId !== this.props.landingId) {
                 this.props.deselectLanding();
             }
             if (!this.props.landingId || landingId !== this.props.landingId || this.props.landing === null) {
                 this.props.fetchLanding(landingId);
-                this.props.setSource(SOURCE_SHOP);
+                this.props.setSource(OPTION_SOURCE_FROM_SHOP);
             }
         } else if (this.props.landingId !== null) {
-            this.props.setSource(SOURCE_SHOP);
+            this.props.setSource(OPTION_SOURCE_FROM_SHOP);
         } else {
-            this.props.setSource(SOURCE_URL);
+            this.props.setSource(OPTION_SOURCE_FROM_URL);
         }
     }
     handleChange(files) {
         this.props.setArchiveAttached(files.length > 0);
     }
     handleKeyUp(type, event) {
-        if (type === SOURCE_URL) {
+        if (type === OPTION_SOURCE_FROM_URL) {
             this.props.setSourceUrl(event.target.value);
         }
     }
@@ -65,7 +59,7 @@ class OrderFirstStep extends React.Component {
                            description={getOptionDescription(this.props.options, OPTION_SOURCE_FROM_URL)}
                            colNonActive={3} colActive={6}
                            priceMin={300} priceMax={300}
-                           active={this.props.source === SOURCE_URL} value={SOURCE_URL}
+                           active={this.props.source === OPTION_SOURCE_FROM_URL} value={OPTION_SOURCE_FROM_URL}
                            error={!validateUrl(this.props.sourceUrl)}
                            onChange={this.updateSource}>
                     <FormGroup>
@@ -78,7 +72,7 @@ class OrderFirstStep extends React.Component {
                            description={getOptionDescription(this.props.options, OPTION_SOURCE_FROM_SHOP)}
                            colNonActive={3} colActive={6}
                            priceMin={100} priceMax={100}
-                           active={this.props.source === SOURCE_SHOP} value={SOURCE_SHOP}
+                           active={this.props.source === OPTION_SOURCE_FROM_SHOP} value={OPTION_SOURCE_FROM_SHOP}
                            error={this.props.landing === null}
                            onChange={this.updateSource}>
                     {this.props.isLandingLoading ? (
@@ -108,7 +102,7 @@ class OrderFirstStep extends React.Component {
                            description={getOptionDescription(this.props.options, OPTION_SOURCE_FROM_ARCHIVE)}
                            colNonActive={3} colActive={6}
                            priceMin={0} priceMax={0}
-                           active={this.props.source === SOURCE_ARCHIVE} value={SOURCE_ARCHIVE}
+                           active={this.props.source === OPTION_SOURCE_FROM_ARCHIVE} value={OPTION_SOURCE_FROM_ARCHIVE}
                            error={!this.props.isArchiveAttached}
                            onChange={this.updateSource}>
                     <FormGroup>

@@ -1,5 +1,6 @@
 import React from "react";
-import SignForm, {SIGN_FORM_REG} from "./SignForm";
+import {SIGN_FORM_REG} from "./constants";
+import SignForm from "./SignForm";
 
 export default class Reg extends React.Component {
     render() {

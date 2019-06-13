@@ -4,6 +4,7 @@ import {setEmail, setName, setPhone} from "../store/user/actions";
 import {setToken} from "../store/auth/actions";
 import {Button, Col, Row} from "reactstrap";
 import {withToastManager} from "react-toast-notifications";
+import {FaSignOutAlt, FaUserEdit} from "react-icons/fa";
 
 class Cabinet extends React.Component {
     constructor(props) {
@@ -67,13 +68,17 @@ class Cabinet extends React.Component {
                 <p><b>Имя:</b> {this.props.name}</p>
                 <p><b>Email:</b> {this.props.email}</p>
                 <p><b>Номер телефона:</b> {this.props.phone}</p>
-                <Button outline color="primary" onClick={this.toggleEdit}>Изменить данные</Button>
+                <Button outline color="primary" onClick={this.toggleEdit}>
+                    <FaUserEdit/> Изменить данные
+                </Button>
                 <br/>
-                <Button outline color="dark" className="mt-2" onClick={this.logout}>Выйти из аккаунта</Button>
+                <Button outline color="dark" className="mt-2" onClick={this.logout}>
+                    <FaSignOutAlt/> Выйти из аккаунта
+                </Button>
             </Fragment>;
         }
         return (
-            <div>
+            <Fragment>
                 <h2>Личный кабинет</h2>
                 <form>
                     <Row>
@@ -82,7 +87,7 @@ class Cabinet extends React.Component {
                         </Col>
                     </Row>
                 </form>
-            </div>
+            </Fragment>
         );
     }
 }

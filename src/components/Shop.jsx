@@ -12,7 +12,7 @@ import {
     Input, InputGroup, InputGroupAddon, Label,
     Row, Spinner
 } from "reactstrap";
-import {FaEye, FaShoppingCart} from "react-icons/fa";
+import {FaEye, FaSearch, FaShoppingCart} from "react-icons/fa";
 import {connect} from "react-redux";
 import {fetchLandings} from "../api/landing";
 import {bindActionCreators} from "redux";
@@ -34,8 +34,8 @@ class Shop extends React.Component {
     }
     render() {
         return (
-            <div>
-                <h3>Магазин лендингов</h3>
+            <Fragment>
+                <h2>Магазин лендингов</h2>
                 <p>
                     Здесь вы найдёте уже готовые, обработанные лендинги. Их можно использовать как есть, а можно
                     доработать как вам захочется.<br/>
@@ -58,7 +58,11 @@ class Shop extends React.Component {
                         <InputGroup>
                             <Input type="text" placeholder="Например: Ab Gymnic, похудение, миостимулятор"
                                    id="input-search"/>
-                            <InputGroupAddon addonType="append"><Button>Найти</Button></InputGroupAddon>
+                            <InputGroupAddon addonType="append">
+                                <Button>
+                                    <FaSearch/> Найти
+                                </Button>
+                            </InputGroupAddon>
                         </InputGroup>
                     </Col>
                 </Row>
@@ -119,7 +123,7 @@ class Shop extends React.Component {
                         </Fragment>
                     )}
                 </Row>
-            </div>
+            </Fragment>
         );
     }
 }

@@ -22,7 +22,7 @@ class Header extends React.Component {
     }
     render() {
         return (
-            <div className="header container mt-3">
+            <header className="header mt-3">
                 <Navbar className="rounded mb-3" color="light" light expand="lg">
                     <Link to="/" className="navbar-brand">
                         <SLogo src={logo} alt="Landingerr"/>
@@ -33,7 +33,7 @@ class Header extends React.Component {
                         <Navigation/>
                     </Collapse>
                 </Navbar>
-            </div>
+            </header>
         );
     }
 }
