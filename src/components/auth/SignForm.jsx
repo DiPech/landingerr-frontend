@@ -8,26 +8,30 @@ import {Redirect} from "react-router-dom";
 import {SIGN_FORM_REG} from "./constants";
 import {FaSignInAlt, FaUserPlus} from "react-icons/fa";
 
+const FIELD_EMAIL = "email";
+const FIELD_PASSWORD = "password";
+const FIELD_REPEAT_PASSWORD = "repeat_password";
+
 class SignForm extends React.Component {
     constructor(props) {
         super(props);
-        this.onEmailChange = this.onEmailChange.bind(this);
-        this.onPasswordChange = this.onPasswordChange.bind(this);
-        this.onRepeatPasswordChange = this.onRepeatPasswordChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.handleEmailChange = this.handleChange.bind(this, FIELD_EMAIL);
+        this.handlePasswordChange = this.handleChange.bind(this, FIELD_PASSWORD);
+        this.handleRepeatPasswordChange = this.handleChange.bind(this, FIELD_REPEAT_PASSWORD);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.isReg = this.isReg.bind(this);
         this.ensureInputValid = this.ensureInputValid.bind(this);
     }
-    onEmailChange(event) {
-        this.props.setEmailText(event.target.value);
+    handleChange(type, event) {
+        if (type === FIELD_EMAIL) {
+            this.props.setEmailText(event.target.value);
+        } else if (type === FIELD_PASSWORD) {
+            this.props.setPasswordText(event.target.value);
+        } else if (type === FIELD_REPEAT_PASSWORD) {
+            this.props.setRepeatPasswordText(event.target.value);
+        }
     }
-    onPasswordChange(event) {
-        this.props.setPasswordText(event.target.value);
-    }
-    onRepeatPasswordChange(event) {
-        this.props.setRepeatPasswordText(event.target.value);
-    }
-    onSubmit() {
+    handleSubmit() {
         try {
             this.ensureInputValid();
         } catch (e) {
@@ -79,14 +83,14 @@ class SignForm extends React.Component {
                                     <input type="email" className="form-control"
                                            placeholder="ivan.ivanov@gmail.com" required
                                            value={this.props.email}
-                                           onChange={this.onEmailChange}/>
+                                           onChange={this.handleEmailChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Пароль</label>
                                     <input type="password" className="form-control"
                                            placeholder="**************" required
                                            value={this.props.password}
-                                           onChange={this.onPasswordChange}/>
+                                           onChange={this.handlePasswordChange}/>
                                 </div>
                                 {this.isReg() && (
                                     <div className="form-group">
@@ -94,10 +98,10 @@ class SignForm extends React.Component {
                                         <input type="password" className="form-control"
                                                placeholder="**************" required
                                                value={this.props.repeatPassword}
-                                               onChange={this.onRepeatPasswordChange}/>
+                                               onChange={this.handleRepeatPasswordChange}/>
                                     </div>
                                 )}
-                                <Button outline color="primary" onClick={this.onSubmit}>
+                                <Button outline color="primary" onClick={this.handleSubmit}>
                                     {this.isReg() ? (
                                         <Fragment>
                                             <FaUserPlus/> Зарегистрироваться

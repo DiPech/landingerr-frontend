@@ -7,13 +7,13 @@ import OrderFourthStep from "./steps/OrderFourthStep";
 import {hasProps} from "../../util/object";
 import {isValidOptionValue} from "./functions";
 import {
-    OPTION_ADD_CLIENT_COUNTERS,
-    OPTION_CLIENT_CHANGES,
-    OPTION_COLLECT_LEADS,
-    OPTION_EDIT_CONTACTS,
+    OPTION_EDIT_ADD_CLIENT_COUNTERS,
+    OPTION_EDIT_CLIENT_CHANGES,
+    OPTION_INTEGRATIONS_COLLECT_LEADS,
+    OPTION_EDIT_EDIT_CONTACTS,
     OPTION_GROUP_INTEGRATIONS,
     OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER,
-    OPTION_SEND_LEADS_TO_PP,
+    OPTION_INTEGRATIONS_SEND_LEADS_TO_PP,
     OPTION_SOURCE_FROM_ARCHIVE,
     OPTION_SOURCE_FROM_SHOP,
     OPTION_SOURCE_FROM_URL
@@ -49,7 +49,7 @@ class OrderForm extends React.Component {
         if (!hasProps(this.props.selectedOptions)) {
             return false;
         }
-        let optionsToCheck = [OPTION_EDIT_CONTACTS, OPTION_ADD_CLIENT_COUNTERS, OPTION_CLIENT_CHANGES];
+        let optionsToCheck = [OPTION_EDIT_EDIT_CONTACTS, OPTION_EDIT_ADD_CLIENT_COUNTERS, OPTION_EDIT_CLIENT_CHANGES];
         for (let keyword in this.props.selectedOptions) {
             if (optionsToCheck.includes(keyword)) {
                 if (this.props.selectedOptions[keyword].length === 0) {
@@ -67,11 +67,11 @@ class OrderForm extends React.Component {
             }
             let keyword = option.keyword;
             if (this.props.selectedOptions.hasOwnProperty(keyword)) {
-                if (keyword === OPTION_COLLECT_LEADS) {
+                if (keyword === OPTION_INTEGRATIONS_COLLECT_LEADS) {
                     if (!hasProps(this.props.selectedChannels)) {
                         return false;
                     }
-                } else if (keyword === OPTION_SEND_LEADS_TO_PP) {
+                } else if (keyword === OPTION_INTEGRATIONS_SEND_LEADS_TO_PP) {
                     if (!hasProps(this.props.selectedPartners)) {
                         return false;
                     }

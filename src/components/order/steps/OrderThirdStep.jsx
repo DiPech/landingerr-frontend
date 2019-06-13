@@ -15,21 +15,17 @@ import {Spinner} from "reactstrap";
 import Col from "reactstrap/es/Col";
 import {fetchLandingIntegrationPartners, fetchLandingNotificationChannels} from "../../../api/landing";
 import {hasProps} from "../../../util/object";
-import {OPTION_COLLECT_LEADS, OPTION_GROUP_INTEGRATIONS, OPTION_SEND_LEADS_TO_PP} from "../constants";
+import {OPTION_INTEGRATIONS_COLLECT_LEADS, OPTION_GROUP_INTEGRATIONS, OPTION_INTEGRATIONS_SEND_LEADS_TO_PP} from "../constants";
 
 class OrderThirdStep extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleChannelChange = this.handleChannelChange.bind(this);
         this.handlePartnerChange = this.handlePartnerChange.bind(this);
+        this.rerender = this.rerender.bind(this);
         this.isOptionSelected = this.isOptionSelected.bind(this);
         this.isLoadingNecessaryData = this.isLoadingNecessaryData.bind(this);
-    }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
     }
     componentWillMount() {
         if (this.props.channels === null) {
@@ -63,6 +59,10 @@ class OrderThirdStep extends React.Component {
         }
         this.rerender();
     }
+    rerender() {
+        this.forceUpdate();
+        this.props.rerenderParent();
+    }
     isOptionSelected(keyword) {
         return this.props.selectedOptions.hasOwnProperty(keyword);
     }
@@ -92,9 +92,9 @@ class OrderThirdStep extends React.Component {
                                 return (" ");
                             }
                             let selectedValues = {};
-                            if (option.keyword === OPTION_COLLECT_LEADS) {
+                            if (option.keyword === OPTION_INTEGRATIONS_COLLECT_LEADS) {
                                 selectedValues = this.props.selectedChannels;
-                            } else if (option.keyword === OPTION_SEND_LEADS_TO_PP) {
+                            } else if (option.keyword === OPTION_INTEGRATIONS_SEND_LEADS_TO_PP) {
                                 selectedValues = this.props.selectedPartners;
                             }
                             return (
@@ -108,7 +108,7 @@ class OrderThirdStep extends React.Component {
                                            onChange={this.handleOptionChange}>
                                     {(function () {
                                         switch (option.keyword) {
-                                            case OPTION_COLLECT_LEADS:
+                                            case OPTION_INTEGRATIONS_COLLECT_LEADS:
                                                 return (
                                                     <Fragment>
                                                         <Row>
@@ -130,7 +130,7 @@ class OrderThirdStep extends React.Component {
                                                         </Row>
                                                     </Fragment>
                                                 );
-                                            case OPTION_SEND_LEADS_TO_PP:
+                                            case OPTION_INTEGRATIONS_SEND_LEADS_TO_PP:
                                                 return (
                                                     <Fragment>
                                                         <Row>

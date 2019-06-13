@@ -10,17 +10,18 @@ import {OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER, OPTION_PLACEMENT_DOWNLOAD_LAND
 class OrderFourthStep extends React.Component {
     constructor(props) {
         super(props);
-        this.rerender = this.rerender.bind(this);
-        this.updatePlacement = this.updatePlacement.bind(this);
+        this.handlePlacementChange = this.handlePlacementChange.bind(this);
         this.handleAccessesToServerKeyUp = this.handleKeyUp.bind(this, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER);
-    }
-    rerender() {
-        this.forceUpdate();
-        this.props.rerenderParent();
+        this.rerender = this.rerender.bind(this);
     }
     componentWillMount() {
         if (this.props.placement === null) {
             this.props.setPlacement(OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER);
+        }
+    }
+    handlePlacementChange(state, value) {
+        if (state) {
+            this.props.setPlacement(value);
         }
     }
     handleKeyUp(type, event) {
@@ -29,10 +30,9 @@ class OrderFourthStep extends React.Component {
         }
         this.rerender();
     }
-    updatePlacement(state, value) {
-        if (state) {
-            this.props.setPlacement(value);
-        }
+    rerender() {
+        this.forceUpdate();
+        this.props.rerenderParent();
     }
     render() {
         return (
@@ -44,7 +44,7 @@ class OrderFourthStep extends React.Component {
                            priceMin={0} priceMax={0}
                            active={this.props.placement === OPTION_PLACEMENT_DOWNLOAD_LANDING}
                            value={OPTION_PLACEMENT_DOWNLOAD_LANDING}
-                           onChange={this.updatePlacement}/>
+                           onChange={this.handlePlacementChange}/>
                 <OrderCard type="radio"
                            name="placement" title="Загрузить на ваш сервер"
                            description={getOptionDescription(this.props.options, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER)}
@@ -53,7 +53,7 @@ class OrderFourthStep extends React.Component {
                            active={this.props.placement === OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER}
                            value={OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER}
                            error={!isValidOptionValue(this.props.selectedOptions, OPTION_PLACEMENT_DEPLOY_TO_CLIENT_SERVER)}
-                           onChange={this.updatePlacement}>
+                           onChange={this.handlePlacementChange}>
                     <FormGroup>
                         <Label for="textarea-server-access">
                             Доступ к вашему серверу (FTP):

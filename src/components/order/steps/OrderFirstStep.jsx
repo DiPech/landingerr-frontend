@@ -15,12 +15,25 @@ class OrderFirstStep extends React.Component {
     constructor(props) {
         super(props);
         this.handleSourceUrlKeyUp = this.handleKeyUp.bind(this, OPTION_SOURCE_FROM_URL);
-        this.updateSource = this.updateSource.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleSourceChange = this.handleSourceChange.bind(this);
+        this.handleSourceArchiveChange = this.handleSourceArchiveChange.bind(this);
         this.fetchLandingInfo = this.fetchLandingInfo.bind(this);
     }
     componentWillMount() {
         this.fetchLandingInfo();
+    }
+    handleSourceArchiveChange(files) {
+        this.props.setArchiveAttached(files.length > 0);
+    }
+    handleKeyUp(type, event) {
+        if (type === OPTION_SOURCE_FROM_URL) {
+            this.props.setSourceUrl(event.target.value);
+        }
+    }
+    handleSourceChange(state, value) {
+        if (state) {
+            this.props.setSource(value);
+        }
     }
     fetchLandingInfo() {
         let landingId = this.props.urlParameterLandingId;
@@ -38,19 +51,6 @@ class OrderFirstStep extends React.Component {
             this.props.setSource(OPTION_SOURCE_FROM_URL);
         }
     }
-    handleChange(files) {
-        this.props.setArchiveAttached(files.length > 0);
-    }
-    handleKeyUp(type, event) {
-        if (type === OPTION_SOURCE_FROM_URL) {
-            this.props.setSourceUrl(event.target.value);
-        }
-    }
-    updateSource(state, value) {
-        if (state) {
-            this.props.setSource(value);
-        }
-    }
     render() {
         return (
             <Row>
@@ -61,7 +61,7 @@ class OrderFirstStep extends React.Component {
                            priceMin={300} priceMax={300}
                            active={this.props.source === OPTION_SOURCE_FROM_URL} value={OPTION_SOURCE_FROM_URL}
                            error={!validateUrl(this.props.sourceUrl)}
-                           onChange={this.updateSource}>
+                           onChange={this.handleSourceChange}>
                     <FormGroup>
                         <Input type="text" name="source" placeholder="Например: https://superlanding.com"
                                onKeyUp={this.handleSourceUrlKeyUp}/>
@@ -74,7 +74,7 @@ class OrderFirstStep extends React.Component {
                            priceMin={100} priceMax={100}
                            active={this.props.source === OPTION_SOURCE_FROM_SHOP} value={OPTION_SOURCE_FROM_SHOP}
                            error={this.props.landing === null}
-                           onChange={this.updateSource}>
+                           onChange={this.handleSourceChange}>
                     {this.props.isLandingLoading ? (
                         <div>
                             Загрузка данных <Spinner size="sm" color="secondary"/>
@@ -104,10 +104,10 @@ class OrderFirstStep extends React.Component {
                            priceMin={0} priceMax={0}
                            active={this.props.source === OPTION_SOURCE_FROM_ARCHIVE} value={OPTION_SOURCE_FROM_ARCHIVE}
                            error={!this.props.isArchiveAttached}
-                           onChange={this.updateSource}>
+                           onChange={this.handleSourceChange}>
                     <FormGroup>
                         <Input type="file" name="file" accept=".zip,.rar,.7zip,.tar"
-                               onChange={(e) => this.handleChange(e.target.files)}/>
+                               onChange={(e) => this.handleSourceArchiveChange(e.target.files)}/>
                         <FormText color="muted">
                             Принимаются форматы: <b>zip</b>, <b>rar</b>, <b>7zip</b> и <b>tar</b>.
                         </FormText>

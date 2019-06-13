@@ -14,12 +14,7 @@ class AuthRequiredRoute extends React.Component {
             isAuthenticated ? (
                 <Route {...this.props} />
             ) : (
-                <Redirect
-                    to={{
-                        pathname: "/auth",
-                        state: {from: this.props.location}
-                    }}
-                />
+                <Redirect to={{pathname: "/auth", state: {from: this.props.location}}}/>
             )
         );
     }
