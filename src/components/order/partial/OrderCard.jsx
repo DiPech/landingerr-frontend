@@ -11,12 +11,22 @@ const SFormGroup = styled(FormGroup)`
 `;
 const SCol = styled(Col)`
     margin-top: 10px;
+    transition: all .2s linear;
 `;
 const SCardTitle = styled(CardTitle)`
     margin-bottom: 0;
 `;
 const SDiv = styled.div`
-    margin-top: 10px;
+    transition: all .2s linear;
+    opacity: 0; 
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0;
+    &.active {
+        margin-top: 10px;
+        opacity: 1;
+        max-height: 2000px;
+    }
 `;
 
 export default class OrderCard extends React.Component {
@@ -24,6 +34,7 @@ export default class OrderCard extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.getCardColor = this.getCardColor.bind(this);
+        this.showContent = this.showContent.bind(this);
     }
     handleChange(event) {
         this.props.onChange(event.target.checked, this.props.value);
@@ -36,6 +47,9 @@ export default class OrderCard extends React.Component {
             return "success";
         }
         return "secondary";
+    }
+    showContent() {
+        return this.props.active && this.props.children
     }
     render() {
         return (
@@ -86,11 +100,9 @@ export default class OrderCard extends React.Component {
                             )}
                         </SFormGroup>
                     </SCardTitle>
-                    {this.props.active && this.props.children && (
-                        <SDiv>
-                            {this.props.children}
-                        </SDiv>
-                    )}
+                    <SDiv className={this.showContent() ? "active" : ""}>
+                        {this.props.children}
+                    </SDiv>
                 </Card>
             </SCol>
         );
