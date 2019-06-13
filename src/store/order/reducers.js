@@ -25,6 +25,7 @@ import {
     ORDER_SET_NOTIFICATION_CHANNEL,
     ORDER_SET_OPTION, ORDER_SET_ORDER_STEP_SHOW_STATUS
 } from "./actions";
+import {cloneDeep} from "lodash";
 
 const defaultState = {
     visibleSteps: {},
@@ -110,42 +111,42 @@ export const orderReducer = (state = defaultState, action) => {
                 options: null
             };
         case ORDER_SET_OPTION:
-            let soSet = state.selectedOptions;
+            let soSet = cloneDeep(state.selectedOptions);
             soSet[action.payload.keyword] = action.payload.data;
             return {
                 ...state,
                 selectedOptions: soSet
             };
         case ORDER_REMOVE_OPTION:
-            let soRemove = state.selectedOptions;
+            let soRemove = cloneDeep(state.selectedOptions);
             delete soRemove[action.payload];
             return {
                 ...state,
                 selectedOptions: soRemove
             };
         case ORDER_SET_NOTIFICATION_CHANNEL:
-            let sncSet = state.selectedChannels;
+            let sncSet = cloneDeep(state.selectedChannels);
             sncSet[action.payload] = true;
             return {
                 ...state,
                 selectedChannels: sncSet
             };
         case ORDER_REMOVE_NOTIFICATION_CHANNEL:
-            let sncRemove = state.selectedChannels;
+            let sncRemove = cloneDeep(state.selectedChannels);
             delete sncRemove[action.payload];
             return {
                 ...state,
                 selectedChannels: sncRemove
             };
         case ORDER_SET_INTEGRATION_WITH_PARTNER_PROGRAM:
-            let spSet = state.selectedPartners;
+            let spSet = cloneDeep(state.selectedPartners);
             spSet[action.payload] = true;
             return {
                 ...state,
                 selectedPartners: spSet
             };
         case ORDER_REMOVE_INTEGRATION_WITH_PARTNER_PROGRAM:
-            let spRemove = state.selectedPartners;
+            let spRemove = cloneDeep(state.selectedPartners);
             delete spRemove[action.payload];
             return {
                 ...state,
@@ -208,7 +209,7 @@ export const orderReducer = (state = defaultState, action) => {
         case ORDER_SET_ORDER_STEP_SHOW_STATUS:
             let stepNumber = parseInt(action.payload.stepNumber);
             let stepStatus = action.payload.status;
-            let vsNew = state.visibleSteps;
+            let vsNew = cloneDeep(state.visibleSteps);
             vsNew[stepNumber] = stepStatus;
             if (stepStatus === false) {
                 let nextStep = stepNumber + 1;
