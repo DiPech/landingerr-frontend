@@ -37,6 +37,7 @@ class OrderForm extends React.Component {
         this.isFourthStepValid = this.isFourthStepValid.bind(this);
         this.isStepVisible = this.isStepVisible.bind(this);
         this.showStep = this.showStep.bind(this);
+        this.renderSteps = this.renderSteps.bind(this);
     }
     componentWillMount() {
         if (this.props.options === null) {
@@ -109,15 +110,79 @@ class OrderForm extends React.Component {
         }
         return true;
     }
+    isStepValid(number) {
+        switch (number) {
+            case 0:
+                return this.isFirstStepValid();
+            case 1:
+                return this.isSecondStepValid();
+            case 2:
+                return this.isThirdStepValid();
+            case 3:
+                return this.isFourthStepValid();
+            default:
+                return true;
+        }
+    }
     isStepVisible(number) {
         return this.props.visibleSteps.hasOwnProperty(number) && this.props.visibleSteps[number] === true;
     }
     showStep(number) {
         this.props.setStepShowStatus(number, true);
     }
+    renderSteps(stepNumber, steps) {
+        return (
+            <Fragment>
+                <hr/>
+                <h4>Шаг {stepNumber + 1} - {steps[stepNumber].title}</h4>
+                {steps[stepNumber].component}
+                {this.isStepValid(stepNumber) && steps[stepNumber].nextBtnText !== null && (
+                    <Fragment>
+                        {!this.isStepVisible(stepNumber) ? (
+                            <Button color="primary" outline size="sm" className="mt-2"
+                                    onClick={() => this.showStep(stepNumber)}>
+                                <FaHandPointRight/> {steps[stepNumber].nextBtnText}
+                            </Button>
+                        ) : (
+                            <Fragment>
+                                {this.renderSteps(parseInt(stepNumber) + 1, steps)}
+                            </Fragment>
+                        )}
+                    </Fragment>
+                )}
+            </Fragment>
+        );
+    }
     render() {
         let landingId = this.props.match.params.hasOwnProperty("landingId") ?
             this.props.match.params.landingId : null;
+        let steps = [
+            {
+                title: "Откуда брать лендинг",
+                component: <OrderFirstStep urlParameterLandingId={landingId}/>,
+                nextBtnText: "Перейти ко второму шагу"
+            },
+            {
+                title: "Обработка лендинга",
+                component: <OrderSecondStep/>,
+                nextBtnText: "Перейти к третьему шагу"
+            },
+            {
+                title: "Выбор интеграций",
+                component: <OrderThirdStep/>,
+                nextBtnText: "Перейти к четвёртому шагу"
+            },
+            {
+                title: "Выбор интеграций",
+                component: <OrderFourthStep/>,
+                nextBtnText: "Перейти к пятому шагу"
+            },
+            {
+                title: "Завершение",
+                component: <OrderFifthStep/>,
+                nextBtnText: null
+            },
+        ];
         return (
             <Fragment>
                 <h2>Создание нового заказа</h2>
@@ -127,77 +192,7 @@ class OrderForm extends React.Component {
                     </div>
                 ) : (
                     <Fragment>
-                        <h4>Шаг 1 - Откуда брать лендинг</h4>
-                        <OrderFirstStep urlParameterLandingId={landingId}/>
-                        {this.isFirstStepValid() && (
-                            <Fragment>
-                                {!this.isStepVisible(2) ? (
-                                    <Button color="primary" outline size="sm" className="mt-2"
-                                            onClick={() => this.showStep(2)}>
-                                        <FaHandPointRight/> Перейти ко второму шагу
-                                    </Button>
-                                ) : (
-                                    <Fragment>
-                                        <hr/>
-                                        <h4>Шаг 2 - Обработка лендинга</h4>
-                                        <OrderSecondStep/>
-                                        {this.isSecondStepValid() && (
-                                            <Fragment>
-                                                {!this.isStepVisible(3) ? (
-                                                    <Button color="primary" outline size="sm" className="mt-2"
-                                                            onClick={() => this.showStep(3)}>
-                                                        <FaHandPointRight/> Перейти к третьему шагу
-                                                    </Button>
-                                                ) : (
-                                                    <Fragment>
-                                                        <hr/>
-                                                        <h4>Шаг 3 - Выбор интеграций</h4>
-                                                        <OrderThirdStep/>
-                                                        {this.isThirdStepValid() && (
-                                                            <Fragment>
-                                                                {!this.isStepVisible(4) ? (
-                                                                    <Button color="primary" outline size="sm"
-                                                                            className="mt-2"
-                                                                            onClick={() => this.showStep(4)}>
-                                                                        <FaHandPointRight/> Перейти к четвёртому шагу
-                                                                    </Button>
-                                                                ) : (
-                                                                    <Fragment>
-                                                                        <hr/>
-                                                                        <h4>Шаг 4 - Где разместить лендинг</h4>
-                                                                        <OrderFourthStep/>
-                                                                        {this.isFourthStepValid() && (
-                                                                            <Fragment>
-                                                                                {!this.isStepVisible(5) ? (
-                                                                                    <Button color="primary" outline
-                                                                                            size="sm"
-                                                                                            className="mt-2"
-                                                                                            onClick={() => this.showStep(5)}>
-                                                                                        <FaHandPointRight/> Перейти к
-                                                                                        пятому
-                                                                                        шагу
-                                                                                    </Button>
-                                                                                ) : (
-                                                                                    <Fragment>
-                                                                                        <hr/>
-                                                                                        <h4>Шаг 5 - Завершение</h4>
-                                                                                        <OrderFifthStep/>
-                                                                                    </Fragment>
-                                                                                )}
-                                                                            </Fragment>
-                                                                        )}
-                                                                    </Fragment>
-                                                                )}
-                                                            </Fragment>
-                                                        )}
-                                                    </Fragment>
-                                                )}
-                                            </Fragment>
-                                        )}
-                                    </Fragment>
-                                )}
-                            </Fragment>
-                        )}
+                        {this.renderSteps(0, steps)}
                     </Fragment>
                 )}
             </Fragment>
