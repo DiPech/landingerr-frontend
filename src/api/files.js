@@ -4,7 +4,7 @@ export function uploadTemporaryFile(file, callable) {
     setTimeout(function () {
         let result = getUploadedFile(file);
         callable(result);
-    }, 100);
+    }, 250);
 }
 
 function getUploadedFile(file) {
@@ -18,7 +18,7 @@ function getUploadedFile(file) {
     let fileNameIndex = randomInt(0, tmpFileNames.length - 1);
     let fileName = tmpFileNames[fileNameIndex];
     return {
-        url: "/test/" + fileName,
+        url: process.env.PUBLIC_URL + "/test/" + fileName,
         name: file.name,
         id: randomInt(10000, 99999)
     };

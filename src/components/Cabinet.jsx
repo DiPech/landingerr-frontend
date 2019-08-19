@@ -41,7 +41,7 @@ class Cabinet extends React.Component {
             content = <Fragment>
                 <div className="form-group">
                     <label>Имя:</label>
-                    <input type="email" className="form-control"
+                    <input type="text" className="form-control"
                            placeholder="Иванов Иван" required
                            value={this.props.name}
                            onChange={this.onNameChange}/>
@@ -60,8 +60,8 @@ class Cabinet extends React.Component {
                            value={this.props.phone}
                            onChange={this.onPhoneChange}/>
                 </div>
-                <Button outline color="secondary" onClick={this.toggleEdit}>Отменить</Button>
-                <Button outline color="primary" className="ml-2">Применить</Button>
+                <Button type="button" outline color="secondary" onClick={this.toggleEdit}>Отменить</Button>
+                <Button type="button" outline color="primary" className="ml-2" onClick={this.toggleEdit}>Применить</Button>
             </Fragment>;
         } else {
             content = <Fragment>

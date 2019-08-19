@@ -29,7 +29,7 @@ export default class App extends React.Component {
         return (
             <Provider store={store}>
                 <ToastProvider autoDismiss={true} autoDismissTimeout={5000} pauseOnHover={true}>
-                    <Router>
+                    <Router basename={process.env.PUBLIC_URL}>
                         <Container>
                             <Header/>
                             <Switch>

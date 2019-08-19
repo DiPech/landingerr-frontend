@@ -38,7 +38,7 @@ export function fetchLandings() {
             let result = getLandings();
             dispatch(fetchLandingsSuccess(result));
             return result;
-        }, 500);
+        }, 1000);
     }
 }
 
@@ -74,8 +74,8 @@ function getLandings() {
         let landing = cloneDeep(landingTemplate);
         landing.id = i + 1;
         landing.name = faker.lorem.sentence();
-        landing.previewUrl = "/test/screenshot-" + screenshotNumber + "-preview.png";
-        landing.screenshotUrl = "/test/screenshot-" + screenshotNumber + ".png";
+        landing.previewUrl = process.env.PUBLIC_URL + "/test/screenshot-" + screenshotNumber + "-preview.png";
+        landing.screenshotUrl = process.env.PUBLIC_URL + "/test/screenshot-" + screenshotNumber + ".png";
         callIfRandom(80, function () {
             repeatRandomTimes(1, badges.length, function (j) {
                 landing.badges.push(cloneDeep(badges[j]));
@@ -94,7 +94,7 @@ export function fetchLandingNotificationChannels() {
             let result = getNotificationChannels();
             dispatch(fetchNotificationChannelsSuccess(result));
             return result;
-        }, 500);
+        }, 1000);
     }
 }
 
@@ -126,7 +126,7 @@ export function fetchLandingIntegrationPartners() {
             let result = getIntegrationPartners();
             dispatch(fetchIntegrationPartnersSuccess(result));
             return result;
-        }, 500);
+        }, 1000);
     }
 }
 

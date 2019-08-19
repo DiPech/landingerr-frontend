@@ -67,7 +67,7 @@ class OrderCommentFormImage extends React.Component {
 }
 
 OrderCommentFormImage.defaultProps = {
-    src: "/no-image.jpg",
+    src: process.env.PUBLIC_URL + "/no-image.jpg",
     onRemove: () => {
         alert("Pass onRemove to component!");
     }
